@@ -26,7 +26,6 @@ public class GameActicity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_acticity);
-
         init();
         setupPlayWithBot();
     }
@@ -34,6 +33,8 @@ public class GameActicity extends AppCompatActivity {
     //Feature
     private void init() {
         img = findViewById(R.id.img);
+        chessBoard = new ChessBoard(GameActicity.this, 1000,1000, colQty, rowQty);
+        chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
     }
 
@@ -56,9 +57,21 @@ public class GameActicity extends AppCompatActivity {
         });
     }
 
-    private void setUpTwoPlayer() {
-        
+    private void setupTwoPlayer() {
+
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

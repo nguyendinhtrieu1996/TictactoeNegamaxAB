@@ -23,11 +23,16 @@ public class Negamax {
         Move bestMove=null;//
         int bestScore;
 
-        if(chessBoard.isGameOver() || currentDept == maxDept) {
-
-            Log.d(index++ + "====== evalue ", chessBoard.evaluate() + "");
-            chessBoard.over = true;
-            return new Record(null, chessBoard.evaluate());
+        if(chessBoard.isGameOver() || currentDept >= maxDept) {
+            int score = chessBoard.evaluate();
+            if (score > 0) {
+                score -= currentDept;
+            } else if (score < 0) {
+                score += currentDept;
+            } else {
+                score = currentDept;
+            }
+            return new Record(null, score);
         }
 
         bestScore = Integer.MIN_VALUE;
@@ -46,16 +51,16 @@ public class Negamax {
             chessBoard.removeMove(move);
             chessBoard.resetWinner();
 
-            alpha = Math.max(alpha, currentScore);
-
             if(currentScore > bestScore) {
                 bestScore = currentScore;
                 bestMove = move;
             }
 
-            if (currentScore >= beta || alpha >= beta) {
-                return new Record(bestMove, bestScore);
-            }
+            alpha = Math.max(alpha, currentScore);
+
+//            if (alpha >= beta) {
+//                return new Record(bestMove, bestScore);
+//            }
 
         }
 

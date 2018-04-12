@@ -29,8 +29,8 @@ public class ChessBoard {
     private Bitmap bitmap;
     private Canvas canvas;
     private Paint paint;
-    private int[][] board;//cac buoc đã đi -1 là chưa đi, 0 la nguoi choi, 1 la may
-    private int player;//nguoi choi nào
+    private int[][] board;
+    private int player;
     private Context context;
     private int bitmapWidth, bitmapHeight, colQty,rowQty;
     private List<Line> lines;
@@ -38,9 +38,11 @@ public class ChessBoard {
     private int winQty;
     private Move previousMove;
     private int winner;
-    public static boolean isGameOver = false;
     public int checkedCount;
-    public Boolean over = false;
+    public static boolean isGameOver = false;
+    public static int MAX_DEPTH = 10;
+
+    public static int BEST_SCORE_VALUE = 100;
 
     private Bitmap playerA, playerB;
 
@@ -50,17 +52,6 @@ public class ChessBoard {
         this.bitmapHeight = bitmapHeight;
         this.colQty = colQty;
         this.rowQty = rowQty;
-    }
-
-    public void initBoard2() {
-        winner = -1;
-        previousMove = null;
-
-        if (colQty > 5) {
-            winQty = 4;
-        } else {
-            winQty = 2;
-        }
     }
 
     public void init() {
@@ -117,10 +108,6 @@ public class ChessBoard {
     }
 
     public boolean negaABMove(final View view, MotionEvent motionEvent) {
-        if (winner == 0 || winner == 1) {
-            return true;
-        }
-
         final int cellWidth = bitmapWidth / colQty;
         final int cellHeight = bitmapHeight / rowQty;
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
@@ -134,13 +121,12 @@ public class ChessBoard {
 
         Record record = negamax.negamaxAB(
                 currentDetp,
-                rowQty * colQty,
+                MAX_DEPTH,
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE
         );
 
         if (record.getMove() == null) {
-            Log.d("++++ record", "null");
             return true;
         }
 
@@ -160,6 +146,7 @@ public class ChessBoard {
         }
 
         view.invalidate();
+
         return true;
     }
 
@@ -191,11 +178,13 @@ public class ChessBoard {
             return true;
         }
 
+        MAX_DEPTH += 1;
+
         return true;
     }
 
     public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight){
-        int padding = 50;
+        int padding = 5;
 
         if(player == 0){
             canvas.drawBitmap(
@@ -357,9 +346,9 @@ public class ChessBoard {
         }
 
         if (winner == player) {
-            return 1;
+            return BEST_SCORE_VALUE;
         } else {
-            return -1;
+            return -BEST_SCORE_VALUE;
         }
     }
 
