@@ -13,7 +13,8 @@ public enum StatusCode {
     CREATED(0),
     DOING(1),
     WIN(2),
-    LOOSE(3);
+    LOOSE(3),
+    DRAW(4);
     
     private int value;
     

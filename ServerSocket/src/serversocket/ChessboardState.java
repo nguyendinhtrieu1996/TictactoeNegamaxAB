@@ -10,5 +10,7 @@ package serversocket;
  * @author dinhtrieu
  */
 public enum ChessboardState {
-    
+    PLAYERA,
+    PLAYERB,
+    NULL;
 }
