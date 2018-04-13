@@ -12,33 +12,39 @@ package serversocket;
 public class Chessboard {
    public static int colQty = 8;
    public static int rowQty = 8;
-   private ChessboardState[][] chessboard;
+   private RolePlayer[][] chessboard;
    private RolePlayer winner = null;
    private int checkedCount;
-   private Boolean isGameOver;
+   public static Boolean isGameOver;
    private RolePlayer currentPlayer;
+   private Move previousMove;
 
     public Chessboard() {
         this.init();
     }
    
-   private void init() {
+   public void init() {
+       previousMove = null;
        checkedCount = 0;
        isGameOver = false;
-       chessboard = new ChessboardState[rowQty][colQty];
+       chessboard = new RolePlayer[rowQty][colQty];
        
        for (int i = 0; i < rowQty; ++i) {
            for (int j = 0; j < colQty; ++j) {
-               chessboard[i][j] = ChessboardState.NULL;
+               chessboard[i][j] = RolePlayer.NULL;
            }
        }
    }
    
    //Public method
-   public Boolean makeMove(Move move) {
+   public Boolean makeMove(Move move, RolePlayer role) {
        if (!canMove(move)) {
            return false;
        }
+       
+       this.previousMove = move;
+       this.currentPlayer = role;
+       chessboard[move.getRow()][move.getCol()] = role;
        
        return null;
    }
@@ -48,7 +54,10 @@ public class Chessboard {
    }
    
    public Boolean canMove(Move move) {
-       return null;
+       if (chessboard[move.getRow()][move.getCol()] == RolePlayer.NULL) {
+           return true;
+       }
+       return false;
    }
    
    public boolean isGameOver(RolePlayer player){

@@ -17,6 +17,12 @@ public class Move {
         this.col = col;
         this.row = row;
     }
+    
+    public Move(String value) {
+        String[] parts = value.split("-");
+        this.row = Integer.parseInt(parts[0]);
+        this.col = Integer.parseInt(parts[1]);
+    }
 
     public int getCol() {
         return col;
@@ -33,7 +39,5 @@ public class Move {
     public void setRow(int row) {
         this.row = row;
     }
-    
-    
     
 }

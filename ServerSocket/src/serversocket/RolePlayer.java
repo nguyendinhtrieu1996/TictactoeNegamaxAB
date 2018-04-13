@@ -11,7 +11,8 @@ package serversocket;
  */
 public enum RolePlayer {
     PLAYERA("playera"),
-    PLAYERB("playerb");
+    PLAYERB("playerb"),
+    NULL("null");
     
     String value;
 

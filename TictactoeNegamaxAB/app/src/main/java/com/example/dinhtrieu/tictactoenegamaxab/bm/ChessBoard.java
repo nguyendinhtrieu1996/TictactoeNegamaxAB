@@ -151,10 +151,13 @@ public class ChessBoard {
     }
 
     public boolean onTouch(final View view, MotionEvent motionEvent){
+
         final int cellWidth = bitmapWidth / colQty;
         final int cellHeight = bitmapHeight / rowQty;
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
         final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
+
+        Log.d("===== Index", "col = " + colIndex + ", row = " + rowIndex);
 
         if(board[rowIndex][colIndex] != -1){
             return true;
