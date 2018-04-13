@@ -13,6 +13,7 @@ import java.net.Socket;
  */
 public class PlayerClient {
 
+    private RolePlayer rolePlayer;
     private Socket socket;
     private MatchThread matchThread;
 
@@ -37,6 +38,14 @@ public class PlayerClient {
 
     public void setMatchThread(MatchThread matchThread) {
         this.matchThread = matchThread;
+    }
+    
+    public RolePlayer getRolePlayer() {
+        return rolePlayer;
+    }
+
+    public void setRolePlayer(RolePlayer rolePlayer) {
+        this.rolePlayer = rolePlayer;
     }
     
 }

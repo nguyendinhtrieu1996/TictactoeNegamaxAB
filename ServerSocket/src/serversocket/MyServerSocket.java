@@ -63,7 +63,7 @@ public class MyServerSocket {
         private Runnable task;
 
         public ServerThread() {
-            task = excuteRnadom;
+            task = excuteRandom;
         }
 
         @Override
@@ -89,10 +89,31 @@ public class MyServerSocket {
             } 
         }
         
-        Runnable excuteRnadom = new Runnable() {
+        Runnable excuteRandom = new Runnable() {
             @Override
             public void run() {
                 System.out.println("Excute random");
+                if (userList.size() > 1) {
+                    userList = ServerSocketHelper.randomPlayer(userList);
+                    
+                    int numberMatches = userList.size() / 2;
+                    
+                    for (int i = 0; i < numberMatches; i++) {
+                        PlayerClient playerA = userList.get(i);
+                        playerA.setRolePlayer(RolePlayer.PLAYERA);
+                        
+                        PlayerClient playerB = userList.get(i + numberMatches);
+                        playerB.setRolePlayer(RolePlayer.PLAYERB);
+                        MatchThread matchThread = new MatchThread(playerA, playerB);
+                        System.out.println("i = " + i);
+                        matchThread.start();
+                    }
+                    
+                    for (int i = 0; i < userList.size() % 2; ++i) {
+                        userList.remove(i);
+                    }
+                    
+                }
             }
         };
 
