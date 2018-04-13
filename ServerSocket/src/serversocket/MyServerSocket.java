@@ -36,8 +36,6 @@ public class MyServerSocket {
     static final int SocketServerPORT = 8081;
     static final int TimeRandom = 10;
 
-    String msgLog = "";
-
     private List<PlayerClient> userList;
 
     ServerSocket serverSocket;
@@ -63,15 +61,14 @@ public class MyServerSocket {
         private Runnable task;
 
         public ServerThread() {
-            
+            task = excuteRandom;
+            excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
         }
 
         @Override
         public void run() {
             Socket socket = null;
-            task = excuteRandom;
-            excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
-
+            
             try {
                 serverSocket = new ServerSocket(SocketServerPORT);
                 System.out.println("I'm waiting here: "
