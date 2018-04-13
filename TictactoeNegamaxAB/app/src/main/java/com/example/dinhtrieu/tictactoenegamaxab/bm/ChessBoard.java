@@ -471,6 +471,7 @@ public class ChessBoard {
     public int getWinner() {
         return winner;
     }
+
 }
 
 

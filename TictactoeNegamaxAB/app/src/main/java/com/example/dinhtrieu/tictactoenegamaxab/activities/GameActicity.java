@@ -77,11 +77,13 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                     case WIN:
                         isAllowMove = false;
                         Toast.makeText(getApplicationContext(), "Ban thắng rồi", Toast.LENGTH_LONG).show();
+                        SocketClient.isOut = true;
                         break;
                     case LOOSE:
                         isAllowMove = false;
                         chessBoard.opponentDraw(message.getMove(), img);
                         Toast.makeText(getApplicationContext(), "Ban thua rồi", Toast.LENGTH_LONG).show();
+                        SocketClient.isOut = true;
                         break;
                     case DRAW:
                         isAllowMove = false;

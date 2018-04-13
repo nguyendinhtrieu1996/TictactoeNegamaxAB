@@ -78,11 +78,22 @@ public class MyServerSocket {
                     + serverSocket.getLocalPort());
                     System.out.println("CTRL + C to quit");
 
+                Boolean flag = false;
+                PlayerClient client;
                 while (true) {
-                    socket = serverSocket.accept();
-                    System.out.println(socket.getInetAddress());
-                    PlayerClient client = new PlayerClient(socket);
-                    userList.add(client);
+                    socket = serverSocket.accept();                                
+                                      
+                    for (int i = 0; i < userList.size(); ++i) {
+                        if (userList.get(i).getSocket().getInetAddress().equals(socket.getInetAddress())) {
+                            flag = true;
+                        }
+                    }
+                    
+                    if (!flag) {
+                        System.out.println(socket.getInetAddress());
+                        client = new PlayerClient(socket);
+                        userList.add(client);
+                    }                  
                 }
 
             } catch (IOException e) {
