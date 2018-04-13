@@ -69,6 +69,7 @@ public class MyServerSocket {
         @Override
         public void run() {
             Socket socket = null;
+            excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
 
             try {
                 serverSocket = new ServerSocket(SocketServerPORT);
@@ -81,7 +82,6 @@ public class MyServerSocket {
                     System.out.println(socket.getInetAddress());
                     PlayerClient client = new PlayerClient(socket);
                     userList.add(client);
-                    excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
                 }
 
             } catch (IOException e) {

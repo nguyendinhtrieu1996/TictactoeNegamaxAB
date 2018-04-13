@@ -157,8 +157,6 @@ public class ChessBoard {
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
         final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
-        Log.d("===== Index", "col = " + colIndex + ", row = " + rowIndex);
-
         if(board[rowIndex][colIndex] != -1){
             return true;
         }
@@ -184,6 +182,23 @@ public class ChessBoard {
         MAX_DEPTH += 1;
 
         return true;
+    }
+
+    public Move onTouchMove(final View view, MotionEvent motionEvent){
+            int cellWidth = bitmapWidth / colQty;
+            int cellHeight = bitmapHeight / rowQty;
+            int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
+            int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
+
+            onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight);
+
+            return new Move(rowIndex, colIndex);
+    }
+
+    public void opponentDraw(Move move) {
+        int cellWidth = bitmapWidth / colQty;
+        int cellHeight = bitmapHeight / rowQty;
+        onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight);
     }
 
     public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight){
