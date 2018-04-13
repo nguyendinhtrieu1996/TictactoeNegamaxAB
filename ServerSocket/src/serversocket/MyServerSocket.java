@@ -109,7 +109,7 @@ public class MyServerSocket {
                         matchThread.start();
                     }
                     
-                    for (int i = 0; i < userList.size() % 2; ++i) {
+                    for (int i = 0; i < numberMatches; ++i) {
                         userList.remove(i);
                     }
                     
