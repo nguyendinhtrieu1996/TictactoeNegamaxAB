@@ -196,8 +196,8 @@ public class ChessBoard {
             return null;
         }
 
-        makeMove(new Move(rowIndex, colIndex));
         onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight);
+        makeMove(new Move(rowIndex, colIndex));
         view.invalidate();
 
         return new Move(rowIndex, colIndex);
@@ -206,8 +206,8 @@ public class ChessBoard {
     public void opponentDraw(Move move, View view) {
         int cellWidth = bitmapWidth / colQty;
         int cellHeight = bitmapHeight / rowQty;
-        makeMove(move);
         onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight);
+        makeMove(move);
         view.invalidate();
     }
 

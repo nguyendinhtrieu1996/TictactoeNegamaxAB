@@ -37,7 +37,6 @@ public class SocketClientPost extends Thread {
             String message = "" + this.move.getRowIndex() + "-" + this.move.getColIndex();
             this.dataOutputStream.writeUTF(message);
             this.dataOutputStream.flush();
-            delegate.hanlderFlushComplete();
         } catch (IOException ex) {
 
         }

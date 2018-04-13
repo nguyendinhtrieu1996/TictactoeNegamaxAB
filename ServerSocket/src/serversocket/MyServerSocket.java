@@ -63,12 +63,13 @@ public class MyServerSocket {
         private Runnable task;
 
         public ServerThread() {
-            task = excuteRandom;
+            
         }
 
         @Override
         public void run() {
             Socket socket = null;
+            task = excuteRandom;
             excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
 
             try {

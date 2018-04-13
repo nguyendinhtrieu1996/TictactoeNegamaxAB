@@ -31,7 +31,6 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     private SocketClient socketClient;
     public static Boolean isAllowMove;
     private ChessBoard chessBoard;
-    private SocketClientPost socketClientPost;
 
     //UI Elements
     private ImageView img;
@@ -54,11 +53,6 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     }
 
     @Override
-    public void hanlderFlushComplete() {
-        socketClientPost.interrupt();
-    }
-
-    @Override
     public void handlerMessage(ServerMessage serverMessage) {
         final ServerMessage message = serverMessage;
         runOnUiThread(new Runnable() {
@@ -73,7 +67,6 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                             Toast.makeText(getApplicationContext(), "Bạn chơi lượt đầu", Toast.LENGTH_LONG).show();
                         } else {
                             isAllowMove = false;
-                            chessBoard.setPlayer(1);
                             Toast.makeText(getApplicationContext(), "Bạn chơi lượt thứ 2", Toast.LENGTH_LONG).show();
                         }
                         break;
@@ -87,6 +80,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                         break;
                     case LOOSE:
                         isAllowMove = false;
+                        chessBoard.opponentDraw(message.getMove(), img);
                         Toast.makeText(getApplicationContext(), "Ban thua rồi", Toast.LENGTH_LONG).show();
                         break;
                     case DRAW:
@@ -110,7 +104,6 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     }
 
     private void initTwoPlayer() {
-        socketClientPost = new SocketClientPost();
         socketClient = new SocketClient(
                 GameConstant.ServerIP,
                 GameConstant.SocketServerPORT
@@ -157,9 +150,9 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                         Move move = chessBoard.onTouchMove(view, motionEvent);
                         if (move != null) {
                             isAllowMove = false;
+                            SocketClientPost socketClientPost = new SocketClientPost();
                             socketClientPost.init(move);
                             socketClientPost.start();
-                            socketClient.stop();
                         }
                     }
                 }
@@ -168,8 +161,6 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
             }
         });
     }
-
-
 }
 
 

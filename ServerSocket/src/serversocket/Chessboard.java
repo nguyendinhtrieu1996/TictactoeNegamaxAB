@@ -18,12 +18,14 @@ public class Chessboard {
    private Boolean isGameOver;
    private RolePlayer currentPlayer;
    private Move previousMove;
+   private int winQty;
 
     public Chessboard() {
         this.init();
     }
    
    public void init() {
+       winQty = 4;
        previousMove = null;
        checkedCount = 0;
        isGameOver = false;
@@ -44,14 +46,121 @@ public class Chessboard {
        
        this.previousMove = move;
        this.currentPlayer = role;
+       this.checkedCount++;
        chessboard[move.getRow()][move.getCol()] = role;
+       isGameOver();
        
        return null;
    }
    
-   public Boolean checkWin(Move move) {
-       return null;
+   public Boolean checkWin() {
+       if (previousMove == null) return false;
+        if (checkRow(previousMove.getRow())
+                || checkColumn(previousMove.getCol())
+                || checkDiagonalFromTopLeft(previousMove.getRow(), previousMove.getCol())
+                || checkDiagonalFromTopRight(previousMove.getRow(), previousMove.getCol())) {
+            return true;
+        }
+
+        return false;
    }
+   
+   private Boolean checkRow (int row) {
+        int count = 0;
+        for (int i = 1; i < rowQty; i++) {
+            if (chessboard[row][i] == chessboard[row][i-1] && chessboard[row][i] != RolePlayer.NULL) {
+                count++;
+
+                if (count == winQty) {
+                    winner = chessboard[row][i];
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+        }
+
+        return false;
+    }
+   
+   private boolean checkColumn (int column) {
+        int count = 0;
+        for (int i = 1; i < colQty; i++) {
+            if (chessboard[i][column] == chessboard[i-1][column] && chessboard[i][column] != RolePlayer.NULL)  {
+                count++;
+
+                if (count == winQty) {
+                    winner = chessboard[i][column];
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+        }
+
+        return false;
+    }
+   
+   private Boolean checkDiagonalFromTopRight (int row, int col) {
+        int rowStart, colStart;
+        int i = 0;
+        int count = 0;
+
+        if (row + col < colQty - 1) {
+            colStart = row + col;
+            rowStart = 0;
+        } else {
+            colStart = colQty - 1;
+            rowStart = col + row - (colQty - 1);
+        }
+
+        while (colStart - i - 1 >= 0 && rowStart + i + 1 < colQty) {
+            if (chessboard[rowStart + i][colStart - i] == chessboard[rowStart + i + 1][colStart - i - 1] && chessboard[rowStart + i][colStart - i] != RolePlayer.NULL) {
+                count++;
+
+                if (count == winQty) {
+                    winner = chessboard[rowStart + i][colStart - i];
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+
+            i++;
+        }
+
+        return false;
+    }
+
+   private Boolean checkDiagonalFromTopLeft (int row, int col) {
+        int rowStart, colStart;
+        int i = 0;
+        int count = 0;
+
+        if (row > col) {
+            rowStart = row - col;
+            colStart = 0;
+        } else {
+            rowStart = 0;
+            colStart = col - row;
+        }
+
+        while (rowStart + i + 1 < colQty && colStart + i + 1 < rowQty) {
+            if (chessboard[rowStart + i][colStart + i] == chessboard[rowStart + i + 1][colStart + i + 1] && chessboard[rowStart + i][colStart + i] != RolePlayer.NULL) {
+                count++;
+
+                if (count == winQty) {
+                    winner = chessboard[rowStart + i][colStart + i];
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+            i++;
+        }
+
+        return false;
+    }
    
    public Boolean canMove(Move move) {
        if (chessboard[move.getRow()][move.getCol()] == RolePlayer.NULL) {
@@ -60,7 +169,17 @@ public class Chessboard {
        return false;
    }
    
-   public boolean isGameOver(RolePlayer player){
+   public boolean isGameOver(){
+       if (checkWin()) {
+           isGameOver = true;
+           return true;
+       }
+       
+       if (checkedCount == rowQty * colQty) {
+           isGameOver = true;
+           return true;
+       }
+       
         return false;
     }
 

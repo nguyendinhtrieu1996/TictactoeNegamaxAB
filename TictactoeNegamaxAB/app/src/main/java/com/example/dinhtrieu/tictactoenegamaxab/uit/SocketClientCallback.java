@@ -8,5 +8,5 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
 
 public interface SocketClientCallback {
     public void handlerMessage(ServerMessage serverMessage);
-    public void hanlderFlushComplete();
+
 }

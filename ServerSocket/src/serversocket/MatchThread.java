@@ -50,8 +50,10 @@ public class MatchThread extends Thread{
                     if (chessboard.getIsGameOver()) {
                         if (chessboard.getWinner() == RolePlayer.PLAYERA) {
                             this.sendMessageToPlayer(playerA, StatusCode.WIN, new Move(1000, 1000));
+                            this.sendMessageToPlayer(playerB, StatusCode.LOOSE, move);
                         } else {
-                            this.sendMessageToPlayer(playerB, StatusCode.LOOSE, new Move(1000, 1000));
+                            this.sendMessageToPlayer(playerB, StatusCode.WIN, new Move(1000, 1000));
+                            this.sendMessageToPlayer(playerA, StatusCode.LOOSE, move);
                         }
                     } else {
                         if (currentPlayer.getRolePlayer() == RolePlayer.PLAYERA) {
