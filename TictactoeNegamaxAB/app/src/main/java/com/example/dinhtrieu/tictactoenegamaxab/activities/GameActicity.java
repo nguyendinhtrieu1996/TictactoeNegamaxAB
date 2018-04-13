@@ -25,7 +25,7 @@ public class GameActicity extends AppCompatActivity {
     //Variable
     private int colQty = 5;
     private int rowQty = 5;
-    private GameType gameType;
+    public static GameType gameType;
     private SocketClient socketClient;
 
     //UI Elements
@@ -50,10 +50,6 @@ public class GameActicity extends AppCompatActivity {
     //Feature
     private void init() {
         img = findViewById(R.id.img);
-        chessBoard = new ChessBoard(GameActicity.this, 1000,1000, colQty, rowQty);
-        chessBoard.init();
-        img.setImageBitmap(chessBoard.drawBoard());
-
         Intent intent = getIntent();
         gameType = (GameType) intent.getSerializableExtra("gametype");
     }
@@ -63,9 +59,15 @@ public class GameActicity extends AppCompatActivity {
                 GameConstant.ServerIP,
                 GameConstant.SocketServerPORT
                 );
+
+        socketClient.execute();
     }
 
     private void setupPlayWithBot() {
+        chessBoard = new ChessBoard(GameActicity.this, 1000,1000, colQty, rowQty);
+        chessBoard.init();
+        img.setImageBitmap(chessBoard.drawBoard());
+
         img.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -85,7 +87,24 @@ public class GameActicity extends AppCompatActivity {
     }
 
     private void setupTwoPlayer() {
+        rowQty = 8;
+        colQty = 8;
+        chessBoard = new ChessBoard(GameActicity.this, 1000,1000, colQty, rowQty);
+        chessBoard.init();
+        img.setImageBitmap(chessBoard.drawBoard());
 
+        img.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (!ChessBoard.isGameOver) {
+                        return chessBoard.onTouch(view, motionEvent);
+                    }
+                }
+
+                return true;
+            }
+        });
     }
 
 
