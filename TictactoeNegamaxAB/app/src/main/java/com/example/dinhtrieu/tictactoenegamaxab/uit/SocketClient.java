@@ -17,11 +17,12 @@ import java.net.UnknownHostException;
  * Created by dinhtrieu on 4/13/18.
  */
 
-public class SocketClient extends AsyncTask<Void, Void, Void> {
+public class SocketClient extends Thread {
 
     private String address;
     private int port;
-    private Socket socket;
+    public static Socket socket;
+    public SocketClientCallback delegate;
 
     public SocketClient(String address, int port) {
         this.address = address;
@@ -29,9 +30,19 @@ public class SocketClient extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    public void run() {
         this.connect();
-        return null;
+
+        try {
+            DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+            String result = inputStream.readUTF();
+            Log.d("====== Connect test ", result);
+            delegate.handlerMessage(result);
+
+        } catch (IOException ex) {
+
+        }
+
     }
 
     private void connect() {
@@ -41,6 +52,7 @@ public class SocketClient extends AsyncTask<Void, Void, Void> {
             Log.d("exception", ex.toString());
         }
     }
+
 }
 
 

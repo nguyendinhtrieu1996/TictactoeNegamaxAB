@@ -24,6 +24,8 @@ public class Move {
         this.col = Integer.parseInt(parts[1]);
     }
 
+    Move() {}
+
     public int getCol() {
         return col;
     }

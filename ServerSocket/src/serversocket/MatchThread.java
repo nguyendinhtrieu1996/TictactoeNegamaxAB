@@ -34,8 +34,8 @@ public class MatchThread extends Thread{
     public void run() { 
     
         try {
-            this.sendMessageToPlayer(playerA, StatusCode.CREATED, new Move(-1, -1));
-            this.sendMessageToPlayer(playerB, StatusCode.CREATED, new Move(-1, -1));
+            this.sendMessageToPlayer(playerA, StatusCode.CREATED, new Move(1000, 1000));
+            this.sendMessageToPlayer(playerB, StatusCode.CREATED, new Move(1000, 1000));
             Move move = new Move();
             
             while (true) {
@@ -48,9 +48,9 @@ public class MatchThread extends Thread{
                     //Game over
                     if (chessboard.getIsGameOver()) {
                         if (chessboard.getWinner() == RolePlayer.PLAYERA) {
-                            this.sendMessageToPlayer(playerA, StatusCode.WIN, new Move(-1, -1));
+                            this.sendMessageToPlayer(playerA, StatusCode.WIN, new Move(1000, 1000));
                         } else {
-                            this.sendMessageToPlayer(playerB, StatusCode.LOOSE, new Move(-1, -1));
+                            this.sendMessageToPlayer(playerB, StatusCode.LOOSE, new Move(1000, 1000));
                         }
                     } else {
                         if (currentPlayer.getRolePlayer() == RolePlayer.PLAYERA) {
@@ -65,7 +65,7 @@ public class MatchThread extends Thread{
             }
             
         } catch (IOException ex) {
-            
+            System.err.println("Match Thread " + ex.toString());
         }
     }
     

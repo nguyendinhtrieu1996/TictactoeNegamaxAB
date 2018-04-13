@@ -15,7 +15,7 @@ public class Chessboard {
    private RolePlayer[][] chessboard;
    private RolePlayer winner = null;
    private int checkedCount;
-   public static Boolean isGameOver;
+   private Boolean isGameOver;
    private RolePlayer currentPlayer;
    private Move previousMove;
 
@@ -61,9 +61,33 @@ public class Chessboard {
    }
    
    public boolean isGameOver(RolePlayer player){
-        
-
         return false;
     }
+
+    public RolePlayer getWinner() {
+        return winner;
+    }
+
+    public void setWinner(RolePlayer winner) {
+        this.winner = winner;
+    }
+
+    public Boolean getIsGameOver() {
+        return isGameOver;
+    }
+
+    public void setIsGameOver(Boolean isGameOver) {
+        this.isGameOver = isGameOver;
+    }
+
+    public RolePlayer getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(RolePlayer currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+   
+   
    
 }

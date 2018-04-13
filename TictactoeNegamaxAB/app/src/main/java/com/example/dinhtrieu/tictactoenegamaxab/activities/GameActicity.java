@@ -3,6 +3,7 @@ package com.example.dinhtrieu.tictactoenegamaxab.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.GameType;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.ClientSocketHelper;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.GameConstant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClient;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClientCallback;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -27,6 +29,7 @@ public class GameActicity extends AppCompatActivity {
     private int rowQty = 5;
     public static GameType gameType;
     private SocketClient socketClient;
+    private Boolean isAllowMove;
 
     //UI Elements
     private ImageView img;
@@ -42,29 +45,37 @@ public class GameActicity extends AppCompatActivity {
         if (gameType == GameType.BOT) {
             setupPlayWithBot();
         } else {
-            init2Player();
+            initTwoPlayer();
             setupTwoPlayer();
+
+            socketClient.delegate = new SocketClientCallback() {
+                @Override
+                public void handlerMessage(String message) {
+                    Log.d("========", message);
+                }
+            };
         }
     }
 
     //Feature
     private void init() {
+        isAllowMove = false;
         img = findViewById(R.id.img);
         Intent intent = getIntent();
         gameType = (GameType) intent.getSerializableExtra("gametype");
     }
 
-    private void init2Player() {
+    private void initTwoPlayer() {
         socketClient = new SocketClient(
                 GameConstant.ServerIP,
                 GameConstant.SocketServerPORT
                 );
 
-        socketClient.execute();
+        socketClient.start();
     }
 
     private void setupPlayWithBot() {
-        chessBoard = new ChessBoard(GameActicity.this, 1000,1000, colQty, rowQty);
+        chessBoard = new ChessBoard(GameActicity.this, 2000,2000, colQty, rowQty);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
 
