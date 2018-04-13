@@ -15,10 +15,15 @@ public class SocketClientPost extends Thread {
     private Socket socket;
     private Move move;
     private DataOutputStream dataOutputStream;
+    public SocketClientCallback delegate;
 
+    public SocketClientPost() {
 
-    public SocketClientPost(Move move) {
+    }
+
+    public void init(Move move) {
         try {
+            this.move = move;
             this.socket = SocketClient.socket;
             this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (Exception ex) {
@@ -26,16 +31,13 @@ public class SocketClientPost extends Thread {
         }
     }
 
-    public void init(Move move) {
-        this.move = move;
-    }
-
     @Override
     public void run() {
         try {
-            String message = "" + this.move.getRowIndex() + this.move.getColIndex();
+            String message = "" + this.move.getRowIndex() + "-" + this.move.getColIndex();
             this.dataOutputStream.writeUTF(message);
             this.dataOutputStream.flush();
+            delegate.hanlderFlushComplete();
         } catch (IOException ex) {
 
         }

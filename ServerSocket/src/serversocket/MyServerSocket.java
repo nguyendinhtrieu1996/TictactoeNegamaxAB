@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class MyServerSocket {
 
     static final int SocketServerPORT = 8081;
-    static final int TimeRandom = 30;
+    static final int TimeRandom = 10;
 
     String msgLog = "";
 
