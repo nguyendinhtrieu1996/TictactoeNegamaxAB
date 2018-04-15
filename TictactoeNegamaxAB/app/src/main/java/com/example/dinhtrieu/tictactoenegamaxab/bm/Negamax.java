@@ -41,23 +41,47 @@ public class Negamax {
         bestScore = Integer.MIN_VALUE;
 
         for(Move move:chessBoard.getMove()){
+            int newA;
+            int newB;
+
+            if (alpha == Integer.MIN_VALUE) {
+                newB = Integer.MAX_VALUE;
+            } else if (alpha == Integer.MAX_VALUE) {
+                newB = Integer.MIN_VALUE;
+            } else {
+                newB = -alpha;
+            }
+
+            if (beta == Integer.MIN_VALUE) {
+                newA = Integer.MAX_VALUE;
+            } else if (beta == Integer.MAX_VALUE) {
+                newA = Integer.MIN_VALUE;
+            } else {
+                newA = -beta;
+            }
+
             chessBoard.makeMove(move);
             Record record = negamaxAB(
                     currentDept + 1,
                     maxDept,
-                    -beta,
-                    -alpha
+                    newA,
+                    newB
             );
 
 
             int currentScore = -record.getScore();
             chessBoard.removeMove(move);
             chessBoard.resetWinner();
-            alpha = Math.max(alpha, currentScore);
 
             if(currentScore > bestScore) {
                 bestScore = currentScore;
                 bestMove = move;
+            }
+
+            alpha = Math.max(bestScore, alpha);
+
+            if (bestScore >= beta) {
+                return new Record(bestMove, alpha);
             }
 
         }
