@@ -16,6 +16,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Line;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,6 @@ public class ChessBoard {
     private int winner;
     public int checkedCount;
     public static boolean isGameOver = false;
-    public static int MAX_DEPTH = 9;
-    public static int BEST_SCORE_VALUE = 100;
 
     private Bitmap playerA, playerB;
 
@@ -54,7 +53,7 @@ public class ChessBoard {
     }
 
     public void init() {
-        player = 0;
+        player = Constant.playerValue;
         isGameOver = false;
         checkedCount = 0;
         winner = -1;
@@ -128,9 +127,9 @@ public class ChessBoard {
 
         if(isGameOver()){
             isGameOver = true;
-            if (winner == 1) {
+            if (winner == Constant.computerValue) {
                 Toast.makeText(context, "Ban thua roi", Toast.LENGTH_LONG).show();
-            } else if (winner == 0) {
+            } else if (winner == Constant.playerValue) {
                 Toast.makeText(context, "Ban thang roi", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
@@ -155,7 +154,7 @@ public class ChessBoard {
 
         Record record = negamax.negamaxAB(
                 currentDetp,
-                MAX_DEPTH,
+                Constant.MAX_DEPTH,
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE
         );
@@ -169,9 +168,9 @@ public class ChessBoard {
 
         if (isGameOver()) {
             isGameOver = true;
-            if (winner == 1) {
+            if (winner == Constant.computerValue) {
                 Toast.makeText(context, "Ban thua roi", Toast.LENGTH_LONG).show();
-            } else if (winner == 0) {
+            } else if (winner == Constant.playerValue) {
                 Toast.makeText(context, "Ban thang roi", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
@@ -209,7 +208,7 @@ public class ChessBoard {
     public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight){
         int padding = 5;
 
-        if(player == 0){
+        if(player == Constant.playerValue){
             canvas.drawBitmap(
                     playerA,
                     new Rect(0,0,playerA.getWidth(), playerA.getHeight()),
@@ -350,7 +349,9 @@ public class ChessBoard {
 
         for (int i = 0; i < rowQty; i++) {
             for (int j = 0; j < colQty; j++) {
-                if (board[i][j] == -1) moves.add(new Move(i, j));//có thể đi dc
+                if (board[i][j] == -1) {
+                    moves.add(new Move(i, j));
+                }
             }
         }
         return moves;
@@ -369,9 +370,9 @@ public class ChessBoard {
         }
 
         if (winner == player) {
-            return BEST_SCORE_VALUE;
+            return Constant.BEST_SCORE_VALUE;
         } else {
-            return -BEST_SCORE_VALUE;
+            return -Constant.BEST_SCORE_VALUE;
         }
     }
 

@@ -15,6 +15,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.GameType;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.GameConstant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClient;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClientCallback;
@@ -23,10 +24,6 @@ import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClientPost;
 public class GameActicity extends AppCompatActivity implements SocketClientCallback {
 
     //Variable
-    private int bitmapWidth = 1000;
-    private int bitmapheight = 1000;
-    private int colQty = 3;
-    private int rowQty = 3;
     public static GameType gameType;
     private SocketClient socketClient;
     public static Boolean isAllowMove;
@@ -98,7 +95,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     private void init() {
         isAllowMove = false;
         img = findViewById(R.id.img);
-        chessBoard = new ChessBoard(GameActicity.this, bitmapWidth,bitmapheight, colQty, rowQty);
+        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
         Intent intent = getIntent();
@@ -115,7 +112,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     }
 
     private void setupPlayWithBot() {
-        chessBoard = new ChessBoard(GameActicity.this, bitmapWidth,bitmapheight, colQty, rowQty);
+        chessBoard = new ChessBoard(GameActicity.this,Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
 
@@ -138,9 +135,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     }
 
     private void setupTwoPlayer() {
-        rowQty = 8;
-        colQty = 8;
-        chessBoard = new ChessBoard(GameActicity.this, bitmapWidth, bitmapheight, colQty, rowQty);
+        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
 

@@ -12,14 +12,19 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
 
 public class Negamax {
     private ChessBoard chessBoard;
+    private int index;
 
     public Negamax(ChessBoard chessBoard) {
+        index = 0;
         this.chessBoard = chessBoard;
     }
 
     public Record negamaxAB(int currentDept, int maxDept, int alpha, int beta) {
         Move bestMove=null;//
         int bestScore;
+
+        index++;
+        Log.d("=== index = ", index + "");
 
         if(chessBoard.isGameOver() || currentDept >= maxDept) {
             int score = chessBoard.evaluate();
@@ -48,17 +53,12 @@ public class Negamax {
             int currentScore = -record.getScore();
             chessBoard.removeMove(move);
             chessBoard.resetWinner();
+            alpha = Math.max(alpha, currentScore);
 
             if(currentScore > bestScore) {
                 bestScore = currentScore;
                 bestMove = move;
             }
-
-            alpha = Math.max(alpha, currentScore);
-
-//            if (currentScore >= beta) {
-//                return new Record(bestMove, bestScore);
-//            }
 
         }
 
