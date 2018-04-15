@@ -13,7 +13,8 @@ public class Constant {
     public final static int colQty = 3;
     public final static int bitmapWidth = 1000;
     public final static int bitmapheight = 1000;
-    public final static int playerValue = 0;
-    public final static int computerValue = 1;
+    public final static int playerValue = 1;
+    public final static int computerValue = 2;
+    public final static int noneValue = 0;
 
 }

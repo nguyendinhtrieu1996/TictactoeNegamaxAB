@@ -56,7 +56,7 @@ public class ChessBoard {
         player = Constant.playerValue;
         isGameOver = false;
         checkedCount = 0;
-        winner = -1;
+        winner = Constant.noneValue;
         previousMove = null;
         lines = new ArrayList<>();
         bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
@@ -75,7 +75,7 @@ public class ChessBoard {
 
         for(int i = 0; i<rowQty; i++){
             for(int j = 0; j < colQty;j++){
-                board[i][j] = -1;//-1 là chưa đi
+                board[i][j] = Constant.noneValue;
             }
         }
 
@@ -112,7 +112,7 @@ public class ChessBoard {
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
         final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
-        if(board[rowIndex][colIndex] != -1) {
+        if(board[rowIndex][colIndex] != Constant.noneValue) {
             Toast.makeText(context, "Da chon roi", Toast.LENGTH_LONG).show();
             return true;
         }
@@ -123,7 +123,7 @@ public class ChessBoard {
         board[rowIndex][colIndex] = player;
         previousMove = new Move(rowIndex, colIndex);
         checkedCount++;
-        player = (player + 1) % 2;
+        convertPlayer();
 
         if(isGameOver()){
             isGameOver = true;
@@ -161,7 +161,11 @@ public class ChessBoard {
 
         onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight);
         board[record.getMove().getRowIndex()][ record.getMove().getColIndex()] = player;
-        player = (player + 1) % 2;
+        if (player == Constant.playerValue) {
+            player = Constant.computerValue;
+        } else {
+            player = Constant.playerValue;
+        }
         checkedCount++;
         previousMove = record.getMove();
         view.invalidate();
@@ -186,7 +190,7 @@ public class ChessBoard {
         int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
         int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
-        if (board[rowIndex][colIndex] != -1) {
+        if (board[rowIndex][colIndex] != Constant.noneValue) {
             return null;
         }
 
@@ -250,7 +254,7 @@ public class ChessBoard {
     private Boolean checkRow (int row) {
         int count = 0;
         for (int i = 1; i < rowQty; i++) {
-            if (board[row][i] == board[row][i-1] && board[row][i] != -1) {
+            if (board[row][i] == board[row][i-1] && board[row][i] != Constant.noneValue) {
                 count++;
 
                 if (count == winQty) {
@@ -268,7 +272,7 @@ public class ChessBoard {
     private boolean checkColumn (int column) {
         int count = 0;
         for (int i = 1; i < colQty; i++) {
-            if (board[i][column] == board[i-1][column] && board[i][column] != -1)  {
+            if (board[i][column] == board[i-1][column] && board[i][column] != Constant.noneValue)  {
                 count++;
 
                 if (count == winQty) {
@@ -297,7 +301,7 @@ public class ChessBoard {
         }
 
         while (colStart - i - 1 >= 0 && rowStart + i + 1 < colQty) {
-            if (board[rowStart + i][colStart - i] == board[rowStart + i + 1][colStart - i - 1] && board[rowStart + i][colStart - i] != -1) {
+            if (board[rowStart + i][colStart - i] == board[rowStart + i + 1][colStart - i - 1] && board[rowStart + i][colStart - i] != Constant.noneValue) {
                 count++;
 
                 if (count == winQty) {
@@ -328,7 +332,7 @@ public class ChessBoard {
         }
 
         while (rowStart + i + 1 < colQty && colStart + i + 1 < rowQty) {
-            if (board[rowStart + i][colStart + i] == board[rowStart + i + 1][colStart + i + 1] && board[rowStart + i][colStart + i] != -1) {
+            if (board[rowStart + i][colStart + i] == board[rowStart + i + 1][colStart + i + 1] && board[rowStart + i][colStart + i] != Constant.noneValue) {
                 count++;
 
                 if (count == winQty) {
@@ -349,7 +353,7 @@ public class ChessBoard {
 
         for (int i = 0; i < rowQty; i++) {
             for (int j = 0; j < colQty; j++) {
-                if (board[i][j] == -1) {
+                if (board[i][j] == Constant.noneValue) {
                     moves.add(new Move(i, j));
                 }
             }
@@ -361,11 +365,11 @@ public class ChessBoard {
         checkedCount++;
         previousMove = move;
         board[move.getRowIndex()][move.getColIndex()] = player;
-        player = (player + 1) % 2;
+        convertPlayer();
     }
 
     public int evaluate() {
-        if (winner == -1) {
+        if (winner == Constant.noneValue) {
             return 0;
         }
 
@@ -388,13 +392,13 @@ public class ChessBoard {
     }
 
     public void resetWinner() {
-        winner = -1;
+        winner = Constant.noneValue;
     }
 
     public void removeMove(Move move) {
-        board[move.getRowIndex()][move.getColIndex()] = -1;
+        board[move.getRowIndex()][move.getColIndex()] = Constant.noneValue;
         checkedCount--;
-        player = (player + 1) % 2;
+        convertPlayer();
     }
 
 
@@ -458,10 +462,18 @@ public class ChessBoard {
         int count = 0;
         for (int i = 0; i < rowQty; i++) {
             for (int j = 0; j < colQty; j++) {
-                if (board[i][j] == -1) count++;
+                if (board[i][j] == Constant.noneValue) count++;
             }
         }
         return count;
+    }
+
+    public void convertPlayer() {
+        if (player == Constant.playerValue) {
+            player = Constant.computerValue;
+        } else {
+            player = Constant.playerValue;
+        }
     }
 
     public int getWinner() {
