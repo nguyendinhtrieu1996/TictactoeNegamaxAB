@@ -25,8 +25,8 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     //Variable
     private int bitmapWidth = 1000;
     private int bitmapheight = 1000;
-    private int colQty = 5;
-    private int rowQty = 5;
+    private int colQty = 3;
+    private int rowQty = 3;
     public static GameType gameType;
     private SocketClient socketClient;
     public static Boolean isAllowMove;
@@ -163,6 +163,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
             }
         });
     }
+
 }
 
 

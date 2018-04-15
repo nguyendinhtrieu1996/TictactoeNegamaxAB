@@ -11,8 +11,6 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
 
 
 public class Negamax {
-
-    public static int index = 0;
     private ChessBoard chessBoard;
 
     public Negamax(ChessBoard chessBoard) {
@@ -40,7 +38,7 @@ public class Negamax {
         for(Move move:chessBoard.getMove()){
             chessBoard.makeMove(move);
             Record record = negamaxAB(
-                    currentDept++,
+                    currentDept + 1,
                     maxDept,
                     -beta,
                     -alpha
@@ -58,7 +56,7 @@ public class Negamax {
 
             alpha = Math.max(alpha, currentScore);
 
-//            if (alpha >= beta) {
+//            if (currentScore >= beta) {
 //                return new Record(bestMove, bestScore);
 //            }
 

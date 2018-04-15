@@ -40,8 +40,7 @@ public class ChessBoard {
     private int winner;
     public int checkedCount;
     public static boolean isGameOver = false;
-    public static int MAX_DEPTH = 10;
-
+    public static int MAX_DEPTH = 9;
     public static int BEST_SCORE_VALUE = 100;
 
     private Bitmap playerA, playerB;
@@ -55,6 +54,7 @@ public class ChessBoard {
     }
 
     public void init() {
+        player = 0;
         isGameOver = false;
         checkedCount = 0;
         winner = -1;
@@ -80,7 +80,6 @@ public class ChessBoard {
             }
         }
 
-        player = 0;
         paint.setStrokeWidth(2);
         int celWidth = bitmapWidth/colQty;
         int celHeight = bitmapHeight/rowQty;
@@ -107,49 +106,6 @@ public class ChessBoard {
         return bitmap;
     }
 
-    public boolean negaABMove(final View view, MotionEvent motionEvent) {
-        final int cellWidth = bitmapWidth / colQty;
-        final int cellHeight = bitmapHeight / rowQty;
-        final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
-        final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
-
-        int count = getCurrentDept();
-        final int currentDetp = rowQty*colQty - count;
-
-
-        negamax = new Negamax(this);
-
-        Record record = negamax.negamaxAB(
-                currentDetp,
-                MAX_DEPTH,
-                Integer.MIN_VALUE,
-                Integer.MAX_VALUE
-        );
-
-        if (record.getMove() == null) {
-            return true;
-        }
-
-        onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight);
-
-        makeMove(record.getMove());
-
-        if (isGameOver()) {
-            isGameOver = true;
-            if (winner == 1) {
-                Toast.makeText(context, "Ban thua roi", Toast.LENGTH_LONG).show();
-            } else if (winner == 0) {
-                Toast.makeText(context, "Ban thang roi", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
-            }
-        }
-
-        view.invalidate();
-
-        return true;
-    }
-
     public boolean onTouch(final View view, MotionEvent motionEvent){
 
         final int cellWidth = bitmapWidth / colQty;
@@ -157,16 +113,18 @@ public class ChessBoard {
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
         final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
-        Log.d("test index", "row  = " + rowIndex + " col = " + colIndex);
-
-        if(board[rowIndex][colIndex] != -1){
+        if(board[rowIndex][colIndex] != -1) {
+            Toast.makeText(context, "Da chon roi", Toast.LENGTH_LONG).show();
             return true;
         }
 
         onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight);
         view.invalidate();
 
-        makeMove(new Move(rowIndex, colIndex));
+        board[rowIndex][colIndex] = player;
+        previousMove = new Move(rowIndex, colIndex);
+        checkedCount++;
+        player = (player + 1) % 2;
 
         if(isGameOver()){
             isGameOver = true;
@@ -181,7 +139,44 @@ public class ChessBoard {
             return true;
         }
 
-        MAX_DEPTH += 1;
+        return true;
+    }
+
+    public boolean negaABMove(final View view, MotionEvent motionEvent) {
+        final int cellWidth = bitmapWidth / colQty;
+        final int cellHeight = bitmapHeight / rowQty;
+        final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
+        final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
+
+        int count = getCurrentDept();
+        final int currentDetp = rowQty*colQty - count;
+
+        negamax = new Negamax(this);
+
+        Record record = negamax.negamaxAB(
+                currentDetp,
+                MAX_DEPTH,
+                Integer.MIN_VALUE,
+                Integer.MAX_VALUE
+        );
+
+        onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight);
+        board[record.getMove().getRowIndex()][ record.getMove().getColIndex()] = player;
+        player = (player + 1) % 2;
+        checkedCount++;
+        previousMove = record.getMove();
+        view.invalidate();
+
+        if (isGameOver()) {
+            isGameOver = true;
+            if (winner == 1) {
+                Toast.makeText(context, "Ban thua roi", Toast.LENGTH_LONG).show();
+            } else if (winner == 0) {
+                Toast.makeText(context, "Ban thang roi", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
+            }
+        }
 
         return true;
     }
