@@ -235,7 +235,7 @@ public class ChessBoardHelper {
                                     evaluateSquare[row - i][colum + i] += attackScore[countAI];
                                 }
                                 if (CheckPoint(row + 1, colum - 1) && CheckPoint(row - 5, colum + 5) && b[row + 1][colum - 1] == 1 && b[row - 5][colum + 5] == 1) {
-                                    evaluateSquare[row + i][colum + i] = 0;
+                                    evaluateSquare[row - i][colum + i] = 0;
                                 }
                             }
                             if ((countAI == 4 || countHuman == 4) && ((CheckPoint(row - i + 1, colum + i - 1) && b[row - i + 1][colum + i - 1] == 0) || (CheckPoint(row - i - 1, colum + i + 1) && b[row - i - 1][colum + i + 1] == 0))) {
