@@ -19,10 +19,12 @@ public class ChessBoaardHelper {
             "011010", "01110", "011112", "211110", "2111010", "011110", "11111",
             "0111012", "10101011", "0101110", "0111010", "0111102", "110110",
             "011011", "0101112", "11110",";11110","01111;"};
+
     private String[] caseAI = {"0220", "02221", "0220201", "12220", "020220",
             "022020", "02220", "022221", "122220", "1222020", "022220", "22222",
             "0222021", "20202022", "0202220", "0222020", "0222201", "220220",
             "022022", "0202221", "22220",";22220","02222;"};
+
     private int[] point = {6, 4, 4, 4, 12, 12, 12, 1000, 1000, 1000, 3000, 10000,
             1000, 3000, 1000, 1000, 1000, 1000, 1000,1000, 1000,1000,1000};
 
@@ -340,5 +342,19 @@ public class ChessBoaardHelper {
         return (x >= 0 && y >= 0 && x < 20 && y < 20);
     }
 
+    public List<Move> getMoves(int player) {
+        evaluateEachSquare(chessBoard, player);
+
+        ArrayList<Record> list = new ArrayList();
+        for (int i = 0; i < maxSquare; i++) {
+            list.add(getMaxSquare());
+        }
+
+        return null;
+    }
+
+    public void resetMove(Move move) {
+        chessBoard[move.getRowIndex()][move.getColIndex()] = Constant.noneValue;
+    }
 
 }
