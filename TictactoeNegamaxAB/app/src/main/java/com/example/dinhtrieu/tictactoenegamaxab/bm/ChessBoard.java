@@ -41,6 +41,7 @@ public class ChessBoard {
     private int winner;
     public int checkedCount;
     public static boolean isGameOver = false;
+    private ChessBoardHelper chessBoardHelper;
 
     private Bitmap playerA, playerB;
 
@@ -151,6 +152,7 @@ public class ChessBoard {
         final int currentDetp = rowQty*colQty - count;
 
         negamax = new Negamax(this);
+        chessBoardHelper = new ChessBoardHelper(board, rowQty);
 
         Record record = negamax.negamaxAB(
                 currentDetp,
