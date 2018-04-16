@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 
 /**
  * Created by dinhtrieu on 4/12/18.
@@ -24,18 +25,12 @@ public class Negamax {
         int bestScore;
 
         index++;
-        Log.d("=== index = ", index + "");
 
-        if(chessBoard.isGameOver() || currentDept >= maxDept) {
-            int score = chessBoard.evaluate();
-            if (score > 0) {
-                score -= currentDept;
-            } else if (score < 0) {
-                score += currentDept;
-            } else {
-                score = currentDept;
-            }
-            return new Record(null, score);
+        int val = chessBoard.evaluate();
+        Log.d("=== value ", val + "" + "  player = " + chessBoard.getPlayer());
+
+        if(currentDept >= maxDept) {
+            return new Record(null, val);
         }
 
         bestScore = Integer.MIN_VALUE;
@@ -60,6 +55,7 @@ public class Negamax {
                 newA = -beta;
             }
 
+            chessBoard.chessBoardHelper.makeMove(move, chessBoard.getPlayer());
             chessBoard.makeMove(move);
             Record record = negamaxAB(
                     currentDept + 1,
@@ -68,10 +64,10 @@ public class Negamax {
                     newB
             );
 
-
             int currentScore = -record.getScore();
             chessBoard.removeMove(move);
             chessBoard.resetWinner();
+
 
             if(currentScore > bestScore) {
                 bestScore = currentScore;
@@ -81,9 +77,18 @@ public class Negamax {
             alpha = Math.max(bestScore, alpha);
 
             if (bestScore >= beta) {
+
+                if (bestMove == null) {
+                    Log.d("NULLL", "negamaxAB:");
+                }
+
                 return new Record(bestMove, alpha);
             }
 
+        }
+
+        if (bestMove == null) {
+            Log.d("NULLL", "negamaxAB:");
         }
 
         return new Record(bestMove, bestScore);

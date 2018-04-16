@@ -41,7 +41,7 @@ public class ChessBoard {
     private int winner;
     public int checkedCount;
     public static boolean isGameOver = false;
-    private ChessBoardHelper chessBoardHelper;
+    public ChessBoardHelper chessBoardHelper;
 
     private Bitmap playerA, playerB;
 
@@ -80,6 +80,7 @@ public class ChessBoard {
             }
         }
 
+        chessBoardHelper = new ChessBoardHelper(board, rowQty);
         paint.setStrokeWidth(2);
         int celWidth = bitmapWidth/colQty;
         int celHeight = bitmapHeight/rowQty;
@@ -152,10 +153,10 @@ public class ChessBoard {
         final int currentDetp = rowQty*colQty - count;
 
         negamax = new Negamax(this);
-        chessBoardHelper = new ChessBoardHelper(board, rowQty);
+        chessBoardHelper.resetValue();
 
         Record record = negamax.negamaxAB(
-                currentDetp,
+                0,
                 Constant.MAX_DEPTH,
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE
@@ -351,16 +352,7 @@ public class ChessBoard {
     }
 
     public List<Move> getMove() {
-        List<Move> moves = new ArrayList<>();
-
-        for (int i = 0; i < rowQty; i++) {
-            for (int j = 0; j < colQty; j++) {
-                if (board[i][j] == Constant.noneValue) {
-                    moves.add(new Move(i, j));
-                }
-            }
-        }
-        return moves;
+       return chessBoardHelper.getMoves(player);
     }
 
     public void makeMove(Move move) {
@@ -371,15 +363,7 @@ public class ChessBoard {
     }
 
     public int evaluate() {
-        if (winner == Constant.noneValue) {
-            return 0;
-        }
-
-        if (winner == player) {
-            return Constant.BEST_SCORE_VALUE;
-        } else {
-            return -Constant.BEST_SCORE_VALUE;
-        }
+        return chessBoardHelper.evaluationBoard(player);
     }
 
 
@@ -398,6 +382,7 @@ public class ChessBoard {
     }
 
     public void removeMove(Move move) {
+        chessBoardHelper.resetMove(move);
         board[move.getRowIndex()][move.getColIndex()] = Constant.noneValue;
         checkedCount--;
         convertPlayer();

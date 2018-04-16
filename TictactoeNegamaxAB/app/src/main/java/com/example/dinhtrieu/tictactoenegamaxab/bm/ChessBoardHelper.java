@@ -274,44 +274,44 @@ public class ChessBoardHelper {
         return list.get(x);
     }
 
-    private int evaluationBoard(int[][] b) {
+    public int evaluationBoard(int player) {
         String s = ";";
         //check in row and colum (|,__)
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                s += b[i][j];
+                s += chessBoard[i][j];
             }
             s += ";";
             for (int j = 0; j < n; j++) {
-                s += b[j][i];
+                s += chessBoard[j][i];
             }
             s += ";";
         }
         // check on diagonally ( \ )
         for (int i = 0; i < n - 4; i++) {
             for (int j = 0; j < n - i; j++) {
-                s += b[j][i + j];
+                s += chessBoard[j][i + j];
             }
             s += ";";
         }
         // check bottom diagonally ( \ )
         for (int i = n - 5; i > 0; i--) {
             for (int j = 0; j < n - i; j++) {
-                s += b[i + j][j];
+                s += chessBoard[i + j][j];
             }
             s += ";";
         }
         // check on diagonally ( / )
         for (int i = 4; i < n; i++) {
             for (int j = 0; j <= i; j++) {
-                s += b[i - j][j];
+                s += chessBoard[i - j][j];
             }
             s += ";";
         }
         // check bottom diagonally ( / )
         for (int i = n - 5; i > 0; i--) {
             for (int j = n - 1; j >= i; j--) {
-                s += b[j][i + n - j - 1];
+                s += chessBoard[j][i + n - j - 1];
             }
             s += ";\n";
         }
@@ -321,8 +321,13 @@ public class ChessBoardHelper {
         for (int i = 0; i < caseHuman.length; i++) {
             find1 = caseAI[i];
             find2 = caseHuman[i];
-            diem += point[i] * count(s, find1);
-            diem -= point[i] * count(s, find2);
+            if (player == Constant.playerValue) {
+                diem -= point[i] * count(s, find1);
+                diem += point[i] * count(s, find2);
+            } else {
+                diem += point[i] * count(s, find1);
+                diem -= point[i] * count(s, find2);
+            }
         }
         return diem;
     }
@@ -344,16 +349,20 @@ public class ChessBoardHelper {
     public List<Move> getMoves(int player) {
         evaluateEachSquare(chessBoard, player);
 
-        ArrayList<Record> list = new ArrayList();
+        ArrayList<Move> list = new ArrayList();
         for (int i = 0; i < maxSquare; i++) {
-            list.add(getMaxSquare());
+            list.add(getMaxSquare().getMove());
         }
 
-        return null;
+        return list;
     }
 
     public void resetMove(Move move) {
         chessBoard[move.getRowIndex()][move.getColIndex()] = Constant.noneValue;
+    }
+
+    public void makeMove(Move move, int player) {
+        chessBoard[move.getRowIndex()][move.getColIndex()] = player;
     }
 
 }
