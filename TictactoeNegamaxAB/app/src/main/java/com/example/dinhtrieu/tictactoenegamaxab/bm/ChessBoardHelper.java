@@ -1,5 +1,4 @@
 package com.example.dinhtrieu.tictactoenegamaxab.bm;
-
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
@@ -14,7 +13,7 @@ import java.util.regex.Pattern;
  * Created by dinhtrieu on 4/16/18.
  */
 
-public class ChessBoaardHelper {
+public class ChessBoardHelper {
     private String[] caseHuman = {"0110", "01112", "0110102", "21110", "010110",
             "011010", "01110", "011112", "211110", "2111010", "011110", "11111",
             "0111012", "10101011", "0101110", "0111010", "0111102", "110110",
@@ -36,7 +35,7 @@ public class ChessBoaardHelper {
     private int maxSquare;
     private int[][] chessBoard;
 
-    public ChessBoaardHelper(int[][] chessboard, int size) {
+    public ChessBoardHelper(int[][] chessboard, int size) {
         n = size;
         this.chessBoard = chessboard;
         maxSquare = 4;
@@ -339,7 +338,7 @@ public class ChessBoaardHelper {
     }
 
     public boolean CheckPoint(int x, int y) {
-        return (x >= 0 && y >= 0 && x < 20 && y < 20);
+        return (x >= 0 && y >= 0 && x < Constant.rowQty && y < Constant.colQty);
     }
 
     public List<Move> getMoves(int player) {
