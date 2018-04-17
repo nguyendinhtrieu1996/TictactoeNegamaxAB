@@ -205,8 +205,34 @@ public class Chessboard {
 
     public void setCurrentPlayer(RolePlayer currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }   
+
+    public RolePlayer[][] getChessboard() {
+        return chessboard;
     }
    
-   
+    public String getBoardString() {
+        String result = "[";
+        
+        for (int i = 0; i < rowQty; ++i) {
+            result += "[";
+            for (int j = 0; j < colQty; ++j) {
+                if (chessboard[i][j] == RolePlayer.PLAYERA) {
+                    result += 1;
+                } else if (chessboard[i][j] == RolePlayer.PLAYERB) {
+                    result += 2;
+                } else {
+                    result += 0;
+                }
+                
+                if (j != colQty - 1) {
+                    result += ", ";
+                }
+            }
+            result += "]";
+        }
+        
+        return result + "]";
+    }
    
 }

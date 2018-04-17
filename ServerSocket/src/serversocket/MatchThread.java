@@ -27,6 +27,8 @@ public class MatchThread extends Thread{
         this.playerB = playerB;
         this.chessboard = new Chessboard();
         this.currentPlayer = playerA;
+        
+        System.out.println(this.chessboard.getChessboard().toString());
     }
 
     //Override method
@@ -48,6 +50,8 @@ public class MatchThread extends Thread{
                     
                     //Game over
                     if (chessboard.getIsGameOver()) {
+                        DAO.getInstance().saveBoard(playerA.getSocket(), playerB.getSocket(), chessboard, chessboard.getWinner());
+                        
                         if (chessboard.getWinner() == RolePlayer.PLAYERA) {
                             this.sendMessageToPlayer(playerA, StatusCode.WIN, new Move(1000, 1000));
                             this.sendMessageToPlayer(playerB, StatusCode.LOOSE, move);
@@ -88,5 +92,20 @@ public class MatchThread extends Thread{
             currentPlayer = playerA;
         }
     }
+
+    public PlayerClient getPlayerA() {
+        return playerA;
+    }
+
+    public PlayerClient getPlayerB() {
+        return playerB;
+    }
+
+    public Chessboard getChessboard() {
+        return chessboard;
+    }
+    
+    
+    
     
 }

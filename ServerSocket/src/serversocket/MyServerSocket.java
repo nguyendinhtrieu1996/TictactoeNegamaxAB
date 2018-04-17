@@ -34,9 +34,10 @@ import java.util.concurrent.TimeUnit;
 public class MyServerSocket {
 
     static final int SocketServerPORT = 8081;
-    static final int TimeRandom = 10;
-
+    static final int TimeRandom = 30;
+    
     private List<PlayerClient> userList;
+    private List<MatchThread> lisThread;
 
     ServerSocket serverSocket;
 
@@ -47,6 +48,7 @@ public class MyServerSocket {
     public MyServerSocket() {
         System.out.print(ServerSocketHelper.getIpAddress());
         userList = new ArrayList<>();
+        lisThread = new ArrayList<>();
         ServerThread chatServerThread = new ServerThread();
         chatServerThread.start();
     }
@@ -55,6 +57,10 @@ public class MyServerSocket {
         this.userList.add(player);
     }
 
+    /**
+     * This class to wait and accept connect from client
+     * then will random player and create match
+    */
     private class ServerThread extends Thread {
         
         private ScheduledExecutorService excutor = Executors.newSingleThreadScheduledExecutor();
@@ -62,12 +68,13 @@ public class MyServerSocket {
 
         public ServerThread() {
             task = excuteRandom;
-            excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
         }
 
         @Override
         public void run() {
             Socket socket = null;
+            
+            excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
             
             try {
                 serverSocket = new ServerSocket(SocketServerPORT);
