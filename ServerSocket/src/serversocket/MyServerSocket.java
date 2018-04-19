@@ -34,10 +34,11 @@ import java.util.concurrent.TimeUnit;
 public class MyServerSocket {
 
     static final int SocketServerPORT = 8081;
-    static final int TimeRandom = 30;
+    static final int TimeDelay = 0;
+    static final int TimeRandom = 10000;
     
     private List<PlayerClient> userList;
-    private List<MatchThread> lisThread;
+    private List<MatchThread> listThread;
 
     ServerSocket serverSocket;
 
@@ -48,9 +49,9 @@ public class MyServerSocket {
     public MyServerSocket() {
         System.out.print(ServerSocketHelper.getIpAddress());
         userList = new ArrayList<>();
-        lisThread = new ArrayList<>();
-        ServerThread chatServerThread = new ServerThread();
-        chatServerThread.start();
+        listThread = new ArrayList<>();
+        ServerThread serverThread = new ServerThread();
+        serverThread.start();
     }
     
     public void addListPlayer(PlayerClient player) {
@@ -62,19 +63,16 @@ public class MyServerSocket {
      * then will random player and create match
     */
     private class ServerThread extends Thread {
-        
-        private ScheduledExecutorService excutor = Executors.newSingleThreadScheduledExecutor();
-        private Runnable task;
+        private Timer timer;
 
         public ServerThread() {
-            task = excuteRandom;
+            timer = new Timer();
+            timer.schedule(excuteRandom, TimeDelay, TimeRandom);
         }
 
         @Override
         public void run() {
             Socket socket = null;
-            
-            excutor.schedule(task, TimeRandom, TimeUnit.SECONDS);
             
             try {
                 serverSocket = new ServerSocket(SocketServerPORT);
@@ -105,10 +103,11 @@ public class MyServerSocket {
             } 
         }
         
-        Runnable excuteRandom = new Runnable() {
+        TimerTask excuteRandom = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Excute random");
+                System.out.println("Execute random");
+                
                 if (userList.size() > 1) {
                     userList = ServerSocketHelper.randomPlayer(userList);
                     
@@ -121,7 +120,7 @@ public class MyServerSocket {
                         PlayerClient playerB = userList.get(i + numberMatches);
                         playerB.setRolePlayer(RolePlayer.PLAYERB);
                         MatchThread matchThread = new MatchThread(playerA, playerB);
-                        System.out.println("i = " + i);
+                        listThread.add(matchThread);
                         matchThread.start();
                     }
                     

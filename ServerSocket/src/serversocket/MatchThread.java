@@ -27,8 +27,6 @@ public class MatchThread extends Thread{
         this.playerB = playerB;
         this.chessboard = new Chessboard();
         this.currentPlayer = playerA;
-        
-        System.out.println(this.chessboard.getChessboard().toString());
     }
 
     //Override method
