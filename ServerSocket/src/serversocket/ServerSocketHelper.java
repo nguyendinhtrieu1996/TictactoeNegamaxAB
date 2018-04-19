@@ -51,7 +51,6 @@ public class ServerSocketHelper {
     
     public static List<PlayerClient> randomPlayer(List<PlayerClient> listPlayer) {
         int size = listPlayer.size();
-        int numberOfMatch = listPlayer.size() / 2;
         Random random = new Random();
         
         for (int i = 0; i < size; ++i) {

@@ -43,7 +43,6 @@ public class MatchThread extends Thread{
                
                 if (dataInputStream.available() > 0) {
                     move = new Move(dataInputStream.readUTF());
-                    System.out.println("move = " + move.getCol() + move.getRow());
                     chessboard.makeMove(move, currentPlayer.getRolePlayer());
                     
                     //Game over
@@ -58,11 +57,9 @@ public class MatchThread extends Thread{
                             this.sendMessageToPlayer(playerA, StatusCode.LOOSE, move);
                         }
                     } else {
-                        if (currentPlayer.getRolePlayer() == RolePlayer.PLAYERA) {
-                            System.out.println("PlayerA move");
+                        if (currentPlayer.getRolePlayer() == RolePlayer.PLAYERA) {            
                             this.sendMessageToPlayer(playerB, StatusCode.DOING, move);
                         } else {
-                            System.out.println("PlayerB move");
                             this.sendMessageToPlayer(playerA, StatusCode.DOING, move);
                         }
                     }
@@ -102,8 +99,5 @@ public class MatchThread extends Thread{
     public Chessboard getChessboard() {
         return chessboard;
     }
-    
-    
-    
-    
+   
 }

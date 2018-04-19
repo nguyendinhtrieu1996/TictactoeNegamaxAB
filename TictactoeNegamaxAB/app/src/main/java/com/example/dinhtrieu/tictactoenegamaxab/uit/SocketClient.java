@@ -54,7 +54,7 @@ public class SocketClient extends Thread {
         try {
             socket = new Socket(address, port);
         } catch (IOException ex) {
-            Log.d("exception", ex.toString());
+            Log.d("connect exception", ex.toString());
         }
     }
 

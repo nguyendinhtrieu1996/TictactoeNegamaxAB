@@ -75,7 +75,7 @@ public class ChessBoardHelper {
                     for (i = 0; i < 5; i++) {
                         if (b[row][colum + i] == 0) {
                             if (countAI == 0) {
-                                if (Player == 2) { // AI turn => AI have to Defense
+                                if (Player == 2) {
                                     evaluateSquare[row][colum + i] += defenseScore[countHuman];
                                 } else { // Player Turn => Player wil Attack
                                     evaluateSquare[row][colum + i] += attackScore[countHuman];
