@@ -250,12 +250,41 @@ public class ChessBoard {
 
     private Boolean checkRow (int row) {
         int count = 0;
+        int opponent;
+        int checkCountLeft = 0;
+        int checkCountRight = 0;
+
         for (int i = 1; i < rowQty; i++) {
             if (board[row][i] == board[row][i-1] && board[row][i] != Constant.noneValue) {
                 count++;
 
                 if (count == winQty) {
                     winner = board[row][i];
+                    if (winner == Constant.playerValue) {
+                       opponent = Constant.computerValue;
+                    } else {
+                        opponent = Constant.playerValue;
+                    }
+
+                    for (int j = i; j < Constant.colQty; ++j) {
+                        if (board[row][j] == opponent) {
+                            checkCountLeft++;
+                            break;
+                        }
+                    }
+
+                    for (int j = i - 5; j >= 0; --j) {
+                        if (board[row][j] == opponent) {
+                            checkCountRight++;
+                            break;
+                        }
+                    }
+
+                    if (checkCountLeft > 0 && checkCountRight > 0) {
+                        return false;
+                    }
+
+
                     return true;
                 }
             } else {
@@ -268,12 +297,41 @@ public class ChessBoard {
 
     private boolean checkColumn (int column) {
         int count = 0;
+        int checkCountTop = 0;
+        int checkCountBottom = 0;
+        int opponent;
+
         for (int i = 1; i < colQty; i++) {
             if (board[i][column] == board[i-1][column] && board[i][column] != Constant.noneValue)  {
                 count++;
 
                 if (count == winQty) {
                     winner = board[i][column];
+                    if (winner == Constant.playerValue) {
+                        opponent = Constant.computerValue;
+                    } else {
+                        opponent = Constant.playerValue;
+                    }
+
+                    for (int j = i - 5; j >= 0; --j) {
+                        if (board[j][column] == opponent) {
+                            checkCountTop++;
+                            break;
+                        }
+                    }
+
+                    for (int j = i; j < Constant.rowQty; ++j) {
+                        if (board[j][column] == opponent) {
+                            checkCountBottom++;
+                            break;
+                        }
+                    }
+
+                    if (checkCountBottom > 0 && checkCountTop > 0) {
+                        return false;
+                    }
+
+
                     return true;
                 }
             } else {
@@ -303,6 +361,42 @@ public class ChessBoard {
 
                 if (count == winQty) {
                     winner = board[rowStart + i][colStart - i];
+
+                    int checkCountTop = 0;
+                    int checkCountBottom = 0;
+                    int opponent;
+
+                    if (winner == Constant.playerValue) {
+                        opponent = Constant.computerValue;
+                    } else {
+                        opponent = Constant.playerValue;
+                    }
+                    int x = rowStart + i + 1;
+                    int y = colStart - i - 1;
+                    int t = 0;
+
+                    while (x + t < rowQty && y - t >= 0) {
+                        if (board[x + t][y - t] == opponent) {
+                            checkCountBottom++;
+                        }
+                        t++;
+                    }
+
+                    t = 0;
+                    x -= 5;
+                    y += 5;
+
+                    while (x - t >= 0 && y + t < colQty) {
+                        if (board[x - t][y + t] == opponent) {
+                            checkCountTop++;
+                        }
+                        t++;
+                    }
+
+                    if (checkCountBottom > 0 && checkCountTop > 0) {
+                        return false;
+                    }
+
                     return true;
                 }
             } else {
@@ -334,6 +428,44 @@ public class ChessBoard {
 
                 if (count == winQty) {
                     winner = board[rowStart + i][colStart + i];
+
+                    int checkCountTop = 0;
+                    int checkCountBottom = 0;
+                    int opponent;
+
+                    if (winner == Constant.playerValue) {
+                        opponent = Constant.computerValue;
+                    } else {
+                        opponent = Constant.playerValue;
+                    }
+
+                    int x = rowStart + i + 1;
+                    int y = colStart + i + 1;
+                    int t = 0;
+
+                    while (x + t < colQty && y + t < rowQty ) {
+                        if (board[x + t][y + t] == opponent) {
+                            checkCountBottom++;
+                        }
+                        t++;
+                    }
+
+                    t = 0;
+                    x -= 5;
+                    y -= 5;
+
+                    while (x - t >= 0 && y - t >= 0) {
+                        if (board[x - t][y - t] == opponent) {
+                            checkCountTop++;
+                        }
+                        t++;
+                    }
+
+
+                    if (checkCountTop > 0 && checkCountBottom > 0) {
+                        return false;
+                    }
+
                     return true;
                 }
             } else {

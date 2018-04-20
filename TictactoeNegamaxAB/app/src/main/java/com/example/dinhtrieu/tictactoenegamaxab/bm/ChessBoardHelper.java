@@ -150,6 +150,7 @@ public class ChessBoardHelper {
         }
         /**
          * Check in diagonal line
+         * TOP LEFT - BOTTOM RIGHT
          */
         for (row = 0; row < n - 4; row++) {
             for (colum = 0; colum < n - 4; colum++) {
@@ -197,6 +198,7 @@ public class ChessBoardHelper {
         }
         /**
          * Check in diagonal line
+         * BOTOM LEFT - TOP RIGHT
          */
         for (row = 4; row < n; row++) {
             for (colum = 0; colum < n - 4; colum++) {
@@ -269,7 +271,7 @@ public class ChessBoardHelper {
     }
 
     public int evaluationBoard(int player) {
-        String s = ";";
+        String s = "";
         //check in row and colum (|,__)
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
