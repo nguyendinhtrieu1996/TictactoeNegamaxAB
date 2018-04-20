@@ -67,9 +67,19 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                             Toast.makeText(getApplicationContext(), "Bạn chơi lượt thứ 2", Toast.LENGTH_LONG).show();
                         }
                         break;
-                    case DOING:
-                        isAllowMove = true;
-                        chessBoard.opponentDraw(message.getMove(), img);
+                    case PLAYERAMOVE:
+                        if (message.getRolePlayer().equals(RolePlayer.PLAYERB)) {
+                            isAllowMove = true;
+                        }
+
+                        chessBoard.drawMove(message.getMove(), img, RolePlayer.PLAYERA);
+                        break;
+                    case PLAYERBMOVE:
+                        if (message.getRolePlayer().equals(RolePlayer.PLAYERA)) {
+                            isAllowMove = true;
+                        }
+
+                        chessBoard.drawMove(message.getMove(), img, RolePlayer.PLAYERB);
                         break;
                     case WIN:
                         isAllowMove = false;
@@ -78,13 +88,15 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                         break;
                     case LOOSE:
                         isAllowMove = false;
-                        chessBoard.opponentDraw(message.getMove(), img);
                         Toast.makeText(getApplicationContext(), "Ban thua rồi", Toast.LENGTH_LONG).show();
                         SocketClient.isOut = true;
                         break;
                     case DRAW:
                         isAllowMove = false;
                         Toast.makeText(getApplicationContext(), "Ban hoà rồi", Toast.LENGTH_LONG).show();
+                        break;
+                    case CANTMOVE:
+                        isAllowMove = true;
                         break;
                 }
             }
@@ -144,7 +156,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     if (isAllowMove) {
-                        Move move = chessBoard.onTouchMove(view, motionEvent);
+                        Move move = chessBoard.getMoveFromTouch(view, motionEvent);
                         if (move != null) {
                             isAllowMove = false;
                             SocketClientPost socketClientPost = new SocketClientPost();

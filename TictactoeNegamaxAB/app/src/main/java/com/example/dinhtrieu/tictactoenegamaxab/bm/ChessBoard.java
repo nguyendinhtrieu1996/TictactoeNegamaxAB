@@ -16,6 +16,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Line;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
+import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class ChessBoard {
             return true;
         }
 
-        onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight);
+        onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight, playerA);
         view.invalidate();
 
         board[rowIndex][colIndex] = player;
@@ -160,7 +161,7 @@ public class ChessBoard {
                 Integer.MAX_VALUE
         );
 
-        onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight);
+        onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight, playerB);
         board[record.getMove().getRowIndex()][ record.getMove().getColIndex()] = player;
         player = (player + 1) % 2;
         checkedCount++;
@@ -181,47 +182,34 @@ public class ChessBoard {
         return true;
     }
 
-    public Move onTouchMove(final View view, MotionEvent motionEvent) {
-        int cellWidth = bitmapWidth / colQty;
-        int cellHeight = bitmapHeight / rowQty;
-        int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
-        int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
-
-        if (board[rowIndex][colIndex] != Constant.noneValue) {
-            return null;
-        }
-
-        onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight);
-        makeMove(new Move(rowIndex, colIndex));
-        view.invalidate();
+    public Move getMoveFromTouch(final View view, MotionEvent motionEvent){
+        final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
+        final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
         return new Move(rowIndex, colIndex);
     }
 
-    public void opponentDraw(Move move, View view) {
+    public void drawMove(Move move, View view, RolePlayer role) {
         int cellWidth = bitmapWidth / colQty;
         int cellHeight = bitmapHeight / rowQty;
-        onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight);
-        makeMove(move);
+
+        if (role == RolePlayer.PLAYERA) {
+            onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight, playerA);
+        } else if (role == RolePlayer.PLAYERB) {
+            onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight, playerB);
+        }
+
         view.invalidate();
     }
 
-    public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight){
+    public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight, Bitmap bitmap){
         int padding = 5;
 
-        if(player == Constant.playerValue){
-            canvas.drawBitmap(
-                    playerA,
-                    new Rect(0,0,playerA.getWidth(), playerA.getHeight()),
+        canvas.drawBitmap(
+                    bitmap,
+                    new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()),
                     new Rect(colIndex*cellWidth+padding,rowIndex*cellHeight+padding,(colIndex+1)*cellWidth -padding, (rowIndex+1)*cellHeight -padding),
                     paint);
-        } else {
-            canvas.drawBitmap(
-                    playerB,
-                    new Rect(0, 0, playerB.getWidth(), playerB.getHeight()),
-                    new Rect(colIndex * cellWidth, rowIndex * cellHeight, (colIndex + 1) * cellWidth, (rowIndex + 1) * cellHeight),
-                    paint);
-        }
     }
 
     public boolean isGameOver(){
@@ -494,7 +482,6 @@ public class ChessBoard {
         return chessBoardHelper.evaluationBoard(player);
     }
 
-
     public int[][] getNewBoard(){
         int[][] newBoard = new int[rowQty][colQty];
         for (int i = 0; i < rowQty; i++) {
@@ -515,7 +502,6 @@ public class ChessBoard {
         checkedCount--;
         convertPlayer();
     }
-
 
     public int getPlayer() {
         return player;

@@ -6,8 +6,10 @@ package com.example.dinhtrieu.tictactoenegamaxab.dm;
 
 public enum GameStatus {
     CREATED,
-    DOING,
+    PLAYERAMOVE,
+    PLAYERBMOVE,
     WIN,
     LOOSE,
-    DRAW;
+    DRAW,
+    CANTMOVE;
 }

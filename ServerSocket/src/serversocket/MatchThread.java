@@ -43,6 +43,27 @@ public class MatchThread extends Thread{
                
                 if (dataInputStream.available() > 0) {
                     move = new Move(dataInputStream.readUTF());
+                    
+                    if (currentPlayer.equals(playerA)) {    
+                        if (chessboard.canMove(move)) {
+                            this.sendMessageToPlayer(playerA, StatusCode.PLAYERAMOVE, move);
+                            this.sendMessageToPlayer(playerB, StatusCode.PLAYERAMOVE, move);
+                        } else {
+                            this.sendMessageToPlayer(playerA, StatusCode.CANTMOVE, move);
+                            continue;
+                        }
+                            
+                    } else if (currentPlayer.equals(playerB)) {
+                        if (chessboard.canMove(move)) {
+                            this.sendMessageToPlayer(playerB, StatusCode.PLAYERBMOVE, move);
+                            this.sendMessageToPlayer(playerA, StatusCode.PLAYERBMOVE, move);
+                        } else {
+                            this.sendMessageToPlayer(playerB, StatusCode.CANTMOVE, move);
+                            continue;
+                        }
+                            
+                    }
+                    
                     chessboard.makeMove(move, currentPlayer.getRolePlayer());
                     
                     //Game over
@@ -58,9 +79,9 @@ public class MatchThread extends Thread{
                         }
                     } else {
                         if (currentPlayer.getRolePlayer() == RolePlayer.PLAYERA) {            
-                            this.sendMessageToPlayer(playerB, StatusCode.DOING, move);
+                            this.sendMessageToPlayer(playerB, StatusCode.PLAYERAMOVE, move);
                         } else {
-                            this.sendMessageToPlayer(playerA, StatusCode.DOING, move);
+                            this.sendMessageToPlayer(playerA, StatusCode.PLAYERBMOVE, move);
                         }
                     }
                 }

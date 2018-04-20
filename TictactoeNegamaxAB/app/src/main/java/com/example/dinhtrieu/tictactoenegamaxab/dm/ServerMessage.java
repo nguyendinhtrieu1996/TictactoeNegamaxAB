@@ -23,16 +23,22 @@ public class ServerMessage {
                 this.gameStatus = GameStatus.CREATED;
                 break;
             case 1:
-                this.gameStatus = GameStatus.DOING;
+                this.gameStatus = GameStatus.PLAYERAMOVE;
                 break;
             case 2:
-                this.gameStatus = GameStatus.WIN;
+                this.gameStatus = GameStatus.PLAYERBMOVE;
                 break;
             case 3:
-                this.gameStatus = GameStatus.LOOSE;
+                this.gameStatus = GameStatus.WIN;
                 break;
             case 4:
+                this.gameStatus = GameStatus.LOOSE;
+                break;
+            case 5:
                 this.gameStatus = GameStatus.DRAW;
+                break;
+            case 6:
+                this.gameStatus = GameStatus.CANTMOVE;
                 break;
         }
 

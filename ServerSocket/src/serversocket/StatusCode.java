@@ -11,10 +11,12 @@ package serversocket;
  */
 public enum StatusCode {
     CREATED(0),
-    DOING(1),
-    WIN(2),
-    LOOSE(3),
-    DRAW(4);
+    PLAYERAMOVE(1),
+    PLAYERBMOVE(2),
+    WIN(3),
+    LOOSE(4),
+    DRAW(5),
+    CANTMOVE(6);
     
     private int value;
     

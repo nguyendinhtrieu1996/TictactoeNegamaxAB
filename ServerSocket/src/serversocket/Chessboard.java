@@ -286,7 +286,7 @@ public class Chessboard {
     }
    
    public Boolean canMove(Move move) {
-       if (chessboard[move.getRow()][move.getCol()] == RolePlayer.NULL) {
+       if (chessboard[move.getRow()][move.getCol()].equals(RolePlayer.NULL)) {
            return true;
        }
        return false;
