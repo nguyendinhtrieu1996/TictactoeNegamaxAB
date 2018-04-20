@@ -94,9 +94,7 @@ public class ChessBoardHelper {
                                     evaluateSquare[row][colum + i] = 0;
                                 }
                             }
-                            if ((countAI == 4 || countHuman == 4) && ((CheckPoint(row, colum + i - 1) && b[row][colum + i - 1] == 0) || (CheckPoint(row, colum + i + 1) && b[row][colum + i + 1] == 0))) {
-                                evaluateSquare[row][colum + i] *= 2;
-                            } else if (countAI == 4 || countHuman == 4) {
+                            if (countAI == 4 || countHuman == 4) {
                                 evaluateSquare[row][colum + i] *= 2;
                             }
                         }
@@ -142,9 +140,7 @@ public class ChessBoardHelper {
                                     evaluateSquare[row + i][colum] = 0;
                                 }
                             }
-                            if ((countAI == 4 || countHuman == 4) && ((CheckPoint(row + i - 1, colum) && b[row + i - 1][colum] == 0) || (CheckPoint(row + i + 1, colum) && b[row + i + 1][colum] == 0))) {
-                                evaluateSquare[row + i][colum] *= 2;
-                            } else if (countAI == 4 || countHuman == 4) {
+                            if (countAI == 4 || countHuman == 4) {
                                 evaluateSquare[row + i][colum] *= 2;
                             }
                         }
@@ -190,9 +186,8 @@ public class ChessBoardHelper {
                                     evaluateSquare[row + i][colum + i] = 0;
                                 }
                             }
-                            if ((countAI == 4 || countHuman == 4) && ((CheckPoint(row + i - 1, colum + i - 1) && b[row + i - 1][colum + i - 1] == 0) || (CheckPoint(row + i + 1, colum + i + 1) && b[row + i + 1][colum + i + 1] == 0))) {
-                                evaluateSquare[row + i][colum + i] *= 2;
-                            } else if (countAI == 4 || countHuman == 4) {
+                            
+                            if (countAI == 4 || countHuman == 4) {
                                 evaluateSquare[row + i][colum + i] *= 2;
                             }
                         }
@@ -238,9 +233,8 @@ public class ChessBoardHelper {
                                     evaluateSquare[row - i][colum + i] = 0;
                                 }
                             }
-                            if ((countAI == 4 || countHuman == 4) && ((CheckPoint(row - i + 1, colum + i - 1) && b[row - i + 1][colum + i - 1] == 0) || (CheckPoint(row - i - 1, colum + i + 1) && b[row - i - 1][colum + i + 1] == 0))) {
-                                evaluateSquare[row - i][colum + i] *= 2;
-                            } else if (countAI == 4 || countHuman == 4) {
+
+                            if (countAI == 4 || countHuman == 4) {
                                 evaluateSquare[row - i][colum + i] *= 2;
                             }
                         }
@@ -250,27 +244,27 @@ public class ChessBoardHelper {
         }
     }
 
-    public Record getMaxSquare() {
+    public Move getMaxSquare() {
         Move move = new Move(0, 0);
-        List<Record> list = new ArrayList<>();
+        List<Move> list = new ArrayList<>();
         int t = Integer.MIN_VALUE;
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (t < evaluateSquare[i][j]) {
+                if (t < evaluateSquare[i][j] && chessBoard[i][j] != Constant.playerValue && chessBoard[i][j] != Constant.computerValue) {
                     t = evaluateSquare[i][j];
                     move = new Move(i, j);
                     list.clear();
-                    list.add(new Record(move, t));
+                    list.add(move);
                 } else if (t == evaluateSquare[i][j]) {
                     move = new Move(i, j);
-                    list.add(new Record(move, t));
+                    list.add(move);
                 }
             }
         }
 
         int x = rand.nextInt(list.size());
-        evaluateSquare[list.get(x).getMove().getRowIndex()][list.get(x).getMove().getColIndex()] = 0;
+        evaluateSquare[list.get(x).getRowIndex()][list.get(x).getColIndex()] = 0;
         return list.get(x);
     }
 
@@ -315,7 +309,7 @@ public class ChessBoardHelper {
             }
             s += ";\n";
         }
-        //X = 1 human, O = 2 AI;
+
         String find1, find2;
         int diem = 0;
         for (int i = 0; i < caseHuman.length; i++) {
@@ -336,6 +330,7 @@ public class ChessBoardHelper {
         Pattern pattern = Pattern.compile(find);
         Matcher matcher = pattern.matcher(s);
         int i = 0;
+
         while (matcher.find()) {
             i++;
         }
@@ -351,7 +346,7 @@ public class ChessBoardHelper {
 
         ArrayList<Move> list = new ArrayList();
         for (int i = 0; i < maxSquare; i++) {
-            list.add(getMaxSquare().getMove());
+            list.add(getMaxSquare());
         }
 
         return list;

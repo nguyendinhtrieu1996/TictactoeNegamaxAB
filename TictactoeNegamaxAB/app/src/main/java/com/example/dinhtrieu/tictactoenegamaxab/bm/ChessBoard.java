@@ -146,8 +146,6 @@ public class ChessBoard {
     public boolean negaABMove(final View view, MotionEvent motionEvent) {
         final int cellWidth = bitmapWidth / colQty;
         final int cellHeight = bitmapHeight / rowQty;
-        final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
-        final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
         int count = getCurrentDept();
         final int currentDetp = rowQty*colQty - count;
@@ -164,11 +162,7 @@ public class ChessBoard {
 
         onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight);
         board[record.getMove().getRowIndex()][ record.getMove().getColIndex()] = player;
-        if (player == Constant.playerValue) {
-            player = Constant.computerValue;
-        } else {
-            player = Constant.playerValue;
-        }
+        player = (player + 1) % 2;
         checkedCount++;
         previousMove = record.getMove();
         view.invalidate();

@@ -26,10 +26,9 @@ public class Negamax {
 
         index++;
 
-        int val = chessBoard.evaluate();
-        Log.d("=== value ", val + "" + "  player = " + chessBoard.getPlayer());
-
-        if(currentDept >= maxDept || val >= 3000) {
+        if(currentDept >= maxDept || chessBoard.isGameOver()) {
+            int val = chessBoard.evaluate();
+            Log.d("=== value ", val + "" + "  player = " + chessBoard.getPlayer());
             return new Record(null, val);
         }
 
