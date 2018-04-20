@@ -124,6 +124,7 @@ public class ChessBoard {
         view.invalidate();
 
         board[rowIndex][colIndex] = player;
+        chessBoardHelper.makeMove(new Move(rowIndex, colIndex), player);
         previousMove = new Move(rowIndex, colIndex);
         checkedCount++;
         convertPlayer();
@@ -152,7 +153,6 @@ public class ChessBoard {
         final int currentDetp = rowQty*colQty - count;
 
         negamax = new Negamax(this);
-        chessBoardHelper.resetValue();
 
         Record record = negamax.negamaxAB(
                 0,
@@ -163,6 +163,7 @@ public class ChessBoard {
 
         onDrawBoard(record.getMove().getRowIndex(), record.getMove().getColIndex() , cellWidth, cellHeight, playerB);
         board[record.getMove().getRowIndex()][ record.getMove().getColIndex()] = player;
+        chessBoardHelper.makeMove(record.getMove(), player);
         player = (player + 1) % 2;
         checkedCount++;
         previousMove = record.getMove();
@@ -475,6 +476,7 @@ public class ChessBoard {
         checkedCount++;
         previousMove = move;
         board[move.getRowIndex()][move.getColIndex()] = player;
+        chessBoardHelper.makeMove(move, player);
         convertPlayer();
     }
 
