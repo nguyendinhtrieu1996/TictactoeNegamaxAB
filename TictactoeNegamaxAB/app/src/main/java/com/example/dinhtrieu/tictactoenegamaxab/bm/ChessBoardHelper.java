@@ -17,12 +17,12 @@ public class ChessBoardHelper {
     private String[] caseHuman = {"0110", "01112", "0110102", "21110", "010110",
             "011010", "01110", "011112", "211110", "2111010", "011110", "11111",
             "0111012", "10101011", "0101110", "0111010", "0111102", "110110",
-            "011011", "0101112", "11110",";11110","01111;"};
+            "011011", "0101112", "11110","11110","01111"};
 
     private String[] caseAI = {"0220", "02221", "0220201", "12220", "020220",
             "022020", "02220", "022221", "122220", "1222020", "022220", "22222",
             "0222021", "20202022", "0202220", "0222020", "0222201", "220220",
-            "022022", "0202221", "22220",";22220","02222;"};
+            "022022", "0202221", "22220","22220","02222"};
 
     private int[] point = {6, 4, 4, 4, 12, 12, 12, 1000, 1000, 1000, 3000, 10000,
             1000, 3000, 1000, 1000, 1000, 1000, 1000,1000, 1000,1000,1000};
@@ -275,39 +275,38 @@ public class ChessBoardHelper {
             for (int j = 0; j < n; j++) {
                 s += chessBoard[i][j];
             }
-            s += ";";
+
             for (int j = 0; j < n; j++) {
                 s += chessBoard[j][i];
             }
-            s += ";";
+
         }
         // check on diagonally ( \ )
         for (int i = 0; i < n - 4; i++) {
             for (int j = 0; j < n - i; j++) {
                 s += chessBoard[j][i + j];
             }
-            s += ";";
+
         }
         // check bottom diagonally ( \ )
         for (int i = n - 5; i > 0; i--) {
             for (int j = 0; j < n - i; j++) {
                 s += chessBoard[i + j][j];
             }
-            s += ";";
+
         }
         // check on diagonally ( / )
         for (int i = 4; i < n; i++) {
             for (int j = 0; j <= i; j++) {
                 s += chessBoard[i - j][j];
             }
-            s += ";";
+
         }
         // check bottom diagonally ( / )
         for (int i = n - 5; i > 0; i--) {
             for (int j = n - 1; j >= i; j--) {
                 s += chessBoard[j][i + n - j - 1];
             }
-            s += ";\n";
         }
 
         String find1, find2;
