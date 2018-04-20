@@ -124,10 +124,12 @@ public class MyServerSocket {
                         matchThread.start();
                     }
                     
-                    for (int i = 0; i < numberMatches; ++i) {
+                    for (int i = numberMatches * 2 - 1; i >= 0; --i) {
                         userList.remove(i);
                     }
                     
+                    
+                    System.out.println("User List size = " + userList.size());
                 }
             }
         };
