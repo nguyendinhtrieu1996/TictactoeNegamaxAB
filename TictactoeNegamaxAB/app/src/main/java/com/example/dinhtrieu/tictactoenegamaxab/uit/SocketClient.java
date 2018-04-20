@@ -33,9 +33,8 @@ public class SocketClient extends Thread {
 
     @Override
     public void run() {
-        this.connect();
-
         try {
+            socket = new Socket(address, port);
             while (!isOut) {
                 DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                 ServerMessage serverMessage = new ServerMessage(inputStream.readUTF());
@@ -43,16 +42,6 @@ public class SocketClient extends Thread {
                 delegate.handlerMessage(serverMessage);
             }
 
-
-        } catch (IOException ex) {
-
-        }
-
-    }
-
-    private void connect() {
-        try {
-            socket = new Socket(address, port);
         } catch (IOException ex) {
             Log.d("connect exception", ex.toString());
         }

@@ -73,6 +73,33 @@ public class Chessboard {
 
                 if (count == winQty) {
                     winner = chessboard[row][i];
+                    RolePlayer opponent;
+                    int checkCountLeft = 0;
+                    int checkCountRight = 0;
+
+                    if (winner == RolePlayer.PLAYERA) {
+                       opponent = RolePlayer.PLAYERB;
+                    } else {
+                        opponent = RolePlayer.PLAYERA;
+                    }
+
+                    for (int j = i; j < colQty; ++j) {
+                        if (chessboard[row][j] == opponent) {
+                            checkCountLeft++;
+                            break;
+                        }
+                    }
+
+                    for (int j = i - 5; j >= 0; --j) {
+                        if (chessboard[row][j] == opponent) {
+                            checkCountRight++;
+                            break;
+                        }
+                    }
+
+                    if (checkCountLeft > 0 && checkCountRight > 0) {
+                        return false;
+                    }
                     return true;
                 }
             } else {
@@ -91,6 +118,32 @@ public class Chessboard {
 
                 if (count == winQty) {
                     winner = chessboard[i][column];
+                    int checkCountTop = 0;
+                    int checkCountBottom = 0;
+                    RolePlayer opponent;
+                    if (winner == RolePlayer.PLAYERA) {
+                        opponent = RolePlayer.PLAYERB;
+                    } else {
+                        opponent = RolePlayer.PLAYERA;
+                    }
+
+                    for (int j = i - 5; j >= 0; --j) {
+                        if (chessboard[j][column] == opponent) {
+                            checkCountTop++;
+                            break;
+                        }
+                    }
+
+                    for (int j = i; j < rowQty; ++j) {
+                        if (chessboard[j][column] == opponent) {
+                            checkCountBottom++;
+                            break;
+                        }
+                    }
+
+                    if (checkCountBottom > 0 && checkCountTop > 0) {
+                        return false;
+                    }
                     return true;
                 }
             } else {
@@ -120,6 +173,40 @@ public class Chessboard {
 
                 if (count == winQty) {
                     winner = chessboard[rowStart + i][colStart - i];
+                    int checkCountTop = 0;
+                    int checkCountBottom = 0;
+                    RolePlayer opponent;
+
+                    if (winner == RolePlayer.PLAYERA) {
+                        opponent = RolePlayer.PLAYERB;
+                    } else {
+                        opponent = RolePlayer.PLAYERA;
+                    }
+                    int x = rowStart + i + 1;
+                    int y = colStart - i - 1;
+                    int t = 0;
+
+                    while (x + t < rowQty && y - t >= 0) {
+                        if (chessboard[x + t][y - t] == opponent) {
+                            checkCountBottom++;
+                        }
+                        t++;
+                    }
+
+                    t = 0;
+                    x -= 5;
+                    y += 5;
+
+                    while (x - t >= 0 && y + t < colQty) {
+                        if (chessboard[x - t][y + t] == opponent) {
+                            checkCountTop++;
+                        }
+                        t++;
+                    }
+
+                    if (checkCountBottom > 0 && checkCountTop > 0) {
+                        return false;
+                    }
                     return true;
                 }
             } else {
@@ -151,6 +238,42 @@ public class Chessboard {
 
                 if (count == winQty) {
                     winner = chessboard[rowStart + i][colStart + i];
+                    int checkCountTop = 0;
+                    int checkCountBottom = 0;
+                    RolePlayer opponent;
+
+                    if (winner == RolePlayer.PLAYERA) {
+                       opponent = RolePlayer.PLAYERB;
+                    } else {
+                        opponent = RolePlayer.PLAYERA;
+                    }
+
+                    int x = rowStart + i + 1;
+                    int y = colStart + i + 1;
+                    int t = 0;
+
+                    while (x + t < colQty && y + t < rowQty ) {
+                        if (chessboard[x + t][y + t] == opponent) {
+                            checkCountBottom++;
+                        }
+                        t++;
+                    }
+
+                    t = 0;
+                    x -= 5;
+                    y -= 5;
+
+                    while (x - t >= 0 && y - t >= 0) {
+                        if (chessboard[x - t][y - t] == opponent) {
+                            checkCountTop++;
+                        }
+                        t++;
+                    }
+
+
+                    if (checkCountTop > 0 && checkCountBottom > 0) {
+                        return false;
+                    }
                     return true;
                 }
             } else {
