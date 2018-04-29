@@ -28,7 +28,6 @@ public class Negamax {
 
         if(currentDept >= maxDept || chessBoard.isGameOver()) {
             int val = chessBoard.evaluate();
-            Log.d("=== value ", val + "" + "  player = " + chessBoard.getPlayer());
             return new Record(null, val);
         }
 
@@ -78,16 +77,11 @@ public class Negamax {
             if (bestScore >= beta) {
 
                 if (bestMove == null) {
-                    Log.d("NULLL", "negamaxAB:");
                 }
 
                 return new Record(bestMove, alpha);
             }
 
-        }
-
-        if (bestMove == null) {
-            Log.d("NULLL", "negamaxAB:");
         }
 
         return new Record(bestMove, bestScore);

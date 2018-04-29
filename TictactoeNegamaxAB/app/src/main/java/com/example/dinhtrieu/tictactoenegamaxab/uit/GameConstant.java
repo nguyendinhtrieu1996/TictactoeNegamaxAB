@@ -7,7 +7,7 @@ package com.example.dinhtrieu.tictactoenegamaxab.uit;
 public class GameConstant {
 
     public static final int SocketServerPORT = 8081;
-    public static final String ServerIP = "192.168.1.41";
+    public static final String ServerIP = "172.20.10.2";
 
 }
 

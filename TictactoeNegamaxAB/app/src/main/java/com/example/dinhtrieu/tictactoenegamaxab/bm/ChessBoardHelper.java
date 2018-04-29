@@ -1,4 +1,7 @@
 package com.example.dinhtrieu.tictactoenegamaxab.bm;
+import android.text.LoginFilter;
+import android.util.Log;
+
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
@@ -348,6 +351,11 @@ public class ChessBoardHelper {
         ArrayList<Move> list = new ArrayList();
         for (int i = 0; i < maxSquare; i++) {
             list.add(getMaxSquare());
+        }
+
+
+        if (list.size() == 0) {
+            Log.d("+++++++ size = 0", "");
         }
 
         return list;
