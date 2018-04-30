@@ -5,16 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.bm.ChessBoard;
+import com.example.dinhtrieu.tictactoenegamaxab.dialog.EndGameDiaglog;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.GameStatus;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.GameType;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.ChessBoardDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.GameConstant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClient;
@@ -31,6 +34,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
 
     //UI Elements
     private ImageView img;
+    private EndGameDiaglog endGameDiaglog;
 
     //Life Circle
     @Override
@@ -105,6 +109,8 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
 
     //Feature
     private void init() {
+        setTitle("Cờ Ca rô");
+        View decorView = getWindow().getDecorView();
         isAllowMove = false;
         img = findViewById(R.id.img);
         chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
@@ -112,6 +118,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         img.setImageBitmap(chessBoard.drawBoard());
         Intent intent = getIntent();
         gameType = (GameType) intent.getSerializableExtra("gametype");
+        endGameDiaglog = new EndGameDiaglog().newInstance();
     }
 
     private void initTwoPlayer() {
@@ -127,6 +134,13 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         chessBoard = new ChessBoard(GameActicity.this,Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
+
+        chessBoard.delgate = new ChessBoardDelegate() {
+            @Override
+            public void gameOver(int winner) {
+                endGameDiaglog.show(getSupportFragmentManager(), "EndGameDialog");
+            }
+        };
 
         img.setOnTouchListener(new View.OnTouchListener() {
             @Override

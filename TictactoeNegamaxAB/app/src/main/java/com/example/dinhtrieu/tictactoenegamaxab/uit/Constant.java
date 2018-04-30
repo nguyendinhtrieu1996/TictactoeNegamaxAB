@@ -8,8 +8,8 @@ public class Constant {
 
     public final static int MAX_DEPTH = 6;
     public final static int BEST_SCORE_VALUE = 100;
-    public final static int rowQty = 8;
-    public final static int colQty = 8;
+    public final static int rowQty = 10;
+    public final static int colQty = 10;
     public final static int bitmapWidth = 1000;
     public final static int bitmapheight = 1000;
     public final static int playerValue = 1;

@@ -17,6 +17,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.Line;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.ChessBoardDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 /**
  * Created by dinhtrieu on 4/12/18.
  */
+
 
 
 public class ChessBoard {
@@ -45,6 +47,7 @@ public class ChessBoard {
     public ChessBoardHelper chessBoardHelper;
     public static boolean isPlayerDoneMove;
     public static boolean isAIDoneMove;
+    public ChessBoardDelegate delgate;
 
     private Bitmap playerA, playerB;
 
@@ -70,8 +73,8 @@ public class ChessBoard {
         paint = new Paint();
         board = new int[rowQty][colQty];
 
-        playerA = BitmapFactory.decodeResource(context.getResources(), R.mipmap.player);
-        playerB = BitmapFactory.decodeResource(context.getResources(),R.mipmap.opponent);
+        playerA = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
+        playerB = BitmapFactory.decodeResource(context.getResources(),R.drawable.opponent);
 
         if (colQty > 5) {
             winQty = 4;
@@ -115,7 +118,6 @@ public class ChessBoard {
     public boolean onTouch(final View view, MotionEvent motionEvent){
         if (!isAIDoneMove) {
             isPlayerDoneMove = false;
-            Log.d("AI", "is Moving");
             return true;
         }
 
@@ -141,14 +143,7 @@ public class ChessBoard {
 
         if(isGameOver()){
             isGameOver = true;
-            if (winner == Constant.computerValue) {
-                Toast.makeText(context, "Ban thua roi", Toast.LENGTH_LONG).show();
-            } else if (winner == Constant.playerValue) {
-                Toast.makeText(context, "Ban thang roi", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
-            }
-
+            delgate.gameOver(winner);
             return true;
         }
 
@@ -186,13 +181,7 @@ public class ChessBoard {
 
         if (isGameOver()) {
             isGameOver = true;
-            if (winner == Constant.computerValue) {
-                Toast.makeText(context, "Ban thua roi", Toast.LENGTH_LONG).show();
-            } else if (winner == Constant.playerValue) {
-                Toast.makeText(context, "Ban thang roi", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
-            }
+            delgate.gameOver(winner);
         }
 
         isAIDoneMove = true;
