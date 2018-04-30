@@ -43,6 +43,8 @@ public class ChessBoard {
     public int checkedCount;
     public static boolean isGameOver = false;
     public ChessBoardHelper chessBoardHelper;
+    public static boolean isPlayerDoneMove;
+    public static boolean isAIDoneMove;
 
     private Bitmap playerA, playerB;
 
@@ -57,6 +59,8 @@ public class ChessBoard {
     public void init() {
         player = Constant.playerValue;
         isGameOver = false;
+        isAIDoneMove = true;
+        isPlayerDoneMove = false;
         checkedCount = 0;
         winner = Constant.noneValue;
         previousMove = null;
@@ -109,7 +113,13 @@ public class ChessBoard {
     }
 
     public boolean onTouch(final View view, MotionEvent motionEvent){
+        if (!isAIDoneMove) {
+            isPlayerDoneMove = false;
+            Log.d("AI", "is Moving");
+            return true;
+        }
 
+        isPlayerDoneMove = false;
         final int cellWidth = bitmapWidth / colQty;
         final int cellHeight = bitmapHeight / rowQty;
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
@@ -142,10 +152,15 @@ public class ChessBoard {
             return true;
         }
 
+        isPlayerDoneMove = true;
+
         return true;
     }
 
     public boolean negaABMove(final View view, MotionEvent motionEvent) {
+        if (!isPlayerDoneMove) { return true; }
+
+        isAIDoneMove = false;
         final int cellWidth = bitmapWidth / colQty;
         final int cellHeight = bitmapHeight / rowQty;
 
@@ -179,6 +194,8 @@ public class ChessBoard {
                 Toast.makeText(context, "Ban hoa", Toast.LENGTH_LONG).show();
             }
         }
+
+        isAIDoneMove = true;
 
         return true;
     }

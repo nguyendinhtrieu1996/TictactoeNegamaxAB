@@ -1,18 +1,12 @@
 package com.example.dinhtrieu.tictactoenegamaxab.uit;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.dinhtrieu.tictactoenegamaxab.MainActivity;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * Created by dinhtrieu on 4/13/18.

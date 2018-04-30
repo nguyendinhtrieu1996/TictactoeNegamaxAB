@@ -37,6 +37,7 @@ public class ChessBoardHelper {
     private int[][] evaluateSquare;
     private int maxSquare;
     private int[][] chessBoard;
+    private static final String TAG = "ChessboardHelper";
 
     public ChessBoardHelper(int[][] chessboard, int size) {
         n = size;
@@ -261,7 +262,7 @@ public class ChessBoardHelper {
                     move = new Move(i, j);
                     list.clear();
                     list.add(move);
-                } else if (t == evaluateSquare[i][j]) {
+                } else if (t == evaluateSquare[i][j] && chessBoard[i][j] != Constant.playerValue && chessBoard[i][j] != Constant.computerValue) {
                     move = new Move(i, j);
                     list.add(move);
                 }
@@ -351,11 +352,6 @@ public class ChessBoardHelper {
         ArrayList<Move> list = new ArrayList();
         for (int i = 0; i < maxSquare; i++) {
             list.add(getMaxSquare());
-        }
-
-
-        if (list.size() == 0) {
-            Log.d("+++++++ size = 0", "");
         }
 
         return list;
