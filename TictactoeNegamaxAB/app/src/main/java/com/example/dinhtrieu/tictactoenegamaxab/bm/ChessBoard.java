@@ -17,6 +17,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.Line;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
+import com.example.dinhtrieu.tictactoenegamaxab.models.GameMode;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 
 import java.util.ArrayList;
@@ -52,6 +53,15 @@ public class ChessBoard {
         this.bitmapHeight = bitmapHeight;
         this.colQty = colQty;
         this.rowQty = rowQty;
+    }
+
+    public ChessBoard(Context context, int bitmapWidth, int bitmapHeight, int colQty, int rowQty, GameMode gameMode) {
+        this.context = context;
+        this.bitmapWidth = bitmapWidth;
+        this.bitmapHeight = bitmapHeight;
+        this.colQty = colQty;
+        this.rowQty = rowQty;
+        Constant.MAX_DEPTH = gameMode.value();
     }
 
     public void init() {

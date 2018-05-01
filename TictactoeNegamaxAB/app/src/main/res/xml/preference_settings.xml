@@ -1,0 +1,29 @@
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="Kích Thước Bàn Cờ">
+
+        <ListPreference
+            android:title="Kích thước bàn cờ"
+            android:key="size_board"
+            android:defaultValue="8"
+            android:entries="@array/sizeBoardName"
+            android:entryValues="@array/sizeBoardValue" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="Chế độ chơi">
+
+        <ListPreference
+            android:title="Chế độ chơi"
+            android:key="game_mode"
+            android:defaultValue="1"
+            android:entries="@array/gameModeName"
+            android:entryValues="@array/gameModeValue" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+
+</android.support.v7.preference.PreferenceScreen>
