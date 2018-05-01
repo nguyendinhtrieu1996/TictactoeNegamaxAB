@@ -19,12 +19,13 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.ChessBoardDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
+import com.example.dinhtrieu.tictactoenegamaxab.uit.EndGameDialogDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.GameConstant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClient;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClientCallback;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.SocketClientPost;
 
-public class GameActicity extends AppCompatActivity implements SocketClientCallback {
+public class GameActicity extends AppCompatActivity implements SocketClientCallback, EndGameDialogDelegate {
 
     //Variable
     public static GameType gameType;
@@ -53,6 +54,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         }
     }
 
+    //Override
     @Override
     public void handlerMessage(ServerMessage serverMessage) {
         final ServerMessage message = serverMessage;
@@ -107,6 +109,16 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         });
     }
 
+    @Override
+    public void didSelectedContinue() {
+        setupPlayWithBot();
+    }
+
+    @Override
+    public void didSelectedQuit() {
+        finish();
+    }
+
     //Feature
     private void init() {
         setTitle("Cờ Ca rô");
@@ -119,6 +131,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         Intent intent = getIntent();
         gameType = (GameType) intent.getSerializableExtra("gametype");
         endGameDiaglog = new EndGameDiaglog().newInstance();
+        endGameDiaglog.delgate = this;
     }
 
     private void initTwoPlayer() {
@@ -138,6 +151,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         chessBoard.delgate = new ChessBoardDelegate() {
             @Override
             public void gameOver(int winner) {
+                endGameDiaglog.winner = chessBoard.getWinner();
                 endGameDiaglog.show(getSupportFragmentManager(), "EndGameDialog");
             }
         };

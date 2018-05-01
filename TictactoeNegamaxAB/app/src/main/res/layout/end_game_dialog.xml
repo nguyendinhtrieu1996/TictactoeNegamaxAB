@@ -11,17 +11,41 @@
         android:id="@+id/imgFlag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/flag"
+        android:src="@drawable/background"
         android:foregroundGravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"/>
 
     <ImageView
-        android:id="@+id/imgLoode"
+        android:id="@+id/imgWin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/loose"
-        app:layout_constraintBottom_toBottomOf="@id/imgFlag"/>
+        android:src="@drawable/win"
+        app:layout_constraintLeft_toLeftOf="@id/imgFlag"
+        app:layout_constraintTop_toTopOf="@id/imgFlag"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="120dp"/>
 
+    <ImageButton
+        android:id="@+id/btnContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/continue_button"
+        android:background="@android:color/transparent"
+        app:layout_constraintLeft_toLeftOf="@id/imgFlag"
+        app:layout_constraintTop_toTopOf="@id/imgFlag"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="280dp"/>
+
+    <ImageButton
+        android:id="@+id/btnQuit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/quit_button"
+        android:background="@android:color/transparent"
+        app:layout_constraintLeft_toLeftOf="@id/imgFlag"
+        app:layout_constraintTop_toTopOf="@id/imgFlag"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="350dp"></ImageButton>
 
 </android.support.constraint.ConstraintLayout>
