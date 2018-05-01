@@ -8,7 +8,9 @@ import android.widget.Button;
 
 import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.activities.GameActicity;
+import com.example.dinhtrieu.tictactoenegamaxab.activities.SettingActivity;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.GameType;
+import com.example.dinhtrieu.tictactoenegamaxab.fragments.SettingsFragment;
 
 import java.io.Serializable;
 
@@ -17,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     //UI Element
     private Button btnPlayWBot;
     private Button btn2Player;
+    private Button btnSettings;
+
+    private SettingsFragment settingsFragment;
 
     //Life circle
     @Override
@@ -39,11 +44,20 @@ public class MainActivity extends AppCompatActivity {
                 navigaToGameActivity(GameType.PLAYER);
             }
         });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+            }
+        });
     }
 
     private void init() {
         btnPlayWBot = findViewById(R.id.btnPlayWithBot);
         btn2Player = findViewById(R.id.btn2Player);
+        btnSettings = findViewById(R.id.btnSettings);
+        settingsFragment = new SettingsFragment();
     }
 
     private void navigaToGameActivity(GameType type) {

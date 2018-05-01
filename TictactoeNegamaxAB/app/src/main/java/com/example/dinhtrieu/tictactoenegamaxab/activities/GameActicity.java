@@ -1,23 +1,27 @@
 package com.example.dinhtrieu.tictactoenegamaxab.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.bm.ChessBoard;
 import com.example.dinhtrieu.tictactoenegamaxab.dialog.EndGameDiaglog;
+import com.example.dinhtrieu.tictactoenegamaxab.configs.Config;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.GameStatus;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.GameType;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.ChessBoardDelegate;
+import com.example.dinhtrieu.tictactoenegamaxab.models.GameMode;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.EndGameDialogDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.GameConstant;
@@ -125,13 +129,15 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         View decorView = getWindow().getDecorView();
         isAllowMove = false;
         img = findViewById(R.id.img);
-        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
-        chessBoard.init();
-        img.setImageBitmap(chessBoard.drawBoard());
+//        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight,
+//                Config.SIZE_BOARD, Config.SIZE_BOARD, Config.GAME_MODE);
+//        chessBoard.init();
+//        img.setImageBitmap(chessBoard.drawBoard());
         Intent intent = getIntent();
         gameType = (GameType) intent.getSerializableExtra("gametype");
         endGameDiaglog = new EndGameDiaglog().newInstance();
         endGameDiaglog.delgate = this;
+        getConfigSettings();
     }
 
     private void initTwoPlayer() {
@@ -144,7 +150,9 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     }
 
     private void setupPlayWithBot() {
-        chessBoard = new ChessBoard(GameActicity.this,Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
+        chessBoard = new ChessBoard(GameActicity.this,Constant.bitmapWidth, Constant.bitmapheight,
+                Config.SIZE_BOARD,
+                Config.SIZE_BOARD, Config.GAME_MODE);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
 
@@ -175,7 +183,7 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
     }
 
     private void setupTwoPlayer() {
-        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight, Constant.rowQty, Constant.colQty);
+        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight, Constant.colQty, Constant.rowQty);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
 
@@ -197,6 +205,18 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
                 return true;
             }
         });
+    }
+
+    public void getConfigSettings(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String sizeString = sharedPreferences.getString(Config.KEY_SIZE_BOARD, "");
+        String gameModeString = sharedPreferences.getString(Config.KEY_GAME_MODE, "");
+        try {
+            Config.SIZE_BOARD = Integer.parseInt(sizeString);
+            Config.GAME_MODE = GameMode.values()[Integer.parseInt(gameModeString)];
+        } catch (Exception ex){
+            Log.e("Error", "setConfigSetting: "+ex.getMessage());
+        }
     }
 
 }
