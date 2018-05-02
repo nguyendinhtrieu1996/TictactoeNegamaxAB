@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.activities.GameActicity;
@@ -16,10 +17,7 @@ import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
-    //UI Element
-    private Button btnPlayWBot;
-    private Button btn2Player;
-    private Button btnSettings;
+    private ImageView newButton, optionButton, exitButton;
 
     private SettingsFragment settingsFragment;
 
@@ -31,32 +29,32 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        btnPlayWBot.setOnClickListener(new View.OnClickListener() {
+        newButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navigaToGameActivity(GameType.BOT);
             }
         });
 
-        btn2Player.setOnClickListener(new View.OnClickListener() {
+        optionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                navigaToGameActivity(GameType.PLAYER);
+            public void onClick(View v) {
+                settingsFragment.show(getSupportFragmentManager(), "settings");
             }
         });
 
-        btnSettings.setOnClickListener(new View.OnClickListener() {
+        exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                finish();
             }
         });
     }
 
     private void init() {
-        btnPlayWBot = findViewById(R.id.btnPlayWithBot);
-        btn2Player = findViewById(R.id.btn2Player);
-        btnSettings = findViewById(R.id.btnSettings);
+        newButton = findViewById(R.id.newButton);
+        optionButton = findViewById(R.id.optionButton);
+        exitButton = findViewById(R.id.exitButton);
         settingsFragment = new SettingsFragment();
     }
 

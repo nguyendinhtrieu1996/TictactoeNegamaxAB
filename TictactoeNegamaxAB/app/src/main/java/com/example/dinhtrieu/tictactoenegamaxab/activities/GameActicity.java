@@ -20,6 +20,7 @@ import com.example.dinhtrieu.tictactoenegamaxab.dm.GameType;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.ServerMessage;
+import com.example.dinhtrieu.tictactoenegamaxab.models.SizeBoard;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.ChessBoardDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.models.GameMode;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
@@ -144,15 +145,15 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         socketClient = new SocketClient(
                 GameConstant.ServerIP,
                 GameConstant.SocketServerPORT
-                );
+        );
 
         socketClient.start();
     }
 
     private void setupPlayWithBot() {
-        chessBoard = new ChessBoard(GameActicity.this,Constant.bitmapWidth, Constant.bitmapheight,
-                Config.SIZE_BOARD,
-                Config.SIZE_BOARD, Config.GAME_MODE);
+        chessBoard = new ChessBoard(GameActicity.this, Constant.bitmapWidth, Constant.bitmapheight,
+                Config.SIZE_BOARD.value(),
+                Config.SIZE_BOARD.value(), Config.GAME_MODE);
         chessBoard.init();
         img.setImageBitmap(chessBoard.drawBoard());
 
@@ -207,16 +208,12 @@ public class GameActicity extends AppCompatActivity implements SocketClientCallb
         });
     }
 
-    public void getConfigSettings(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String sizeString = sharedPreferences.getString(Config.KEY_SIZE_BOARD, "");
-        String gameModeString = sharedPreferences.getString(Config.KEY_GAME_MODE, "");
-        try {
-            Config.SIZE_BOARD = Integer.parseInt(sizeString);
-            Config.GAME_MODE = GameMode.values()[Integer.parseInt(gameModeString)];
-        } catch (Exception ex){
-            Log.e("Error", "setConfigSetting: "+ex.getMessage());
-        }
+    public void getConfigSettings() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.NAME_SETTINGS, MODE_PRIVATE);
+        int sizeChosen = sharedPreferences.getInt(Config.KEY_SIZE_BOARD, 1);
+        int modeChosen = sharedPreferences.getInt(Config.KEY_GAME_MODE, 1);
+        Config.SIZE_BOARD = SizeBoard.values()[sizeChosen];
+        Config.GAME_MODE = GameMode.values()[modeChosen];
     }
 
 }

@@ -5,16 +5,21 @@ package com.example.dinhtrieu.tictactoenegamaxab.models;
  */
 public enum GameMode {
 
-    EASY(1), MEDIUM(3), HARD(7);
+    EASY("Dễ", 1), MEDIUM("Thường", 3), HARD("Khó", 7);
 
+    private String key;
     private int value;
 
-    private GameMode(int value){
+    private GameMode(String key, int value){
+        this.key = key;
         this.value = value;
     }
 
     public int value(){
         return value;
+    }
+    public String key(){
+        return key;
     }
 
 }

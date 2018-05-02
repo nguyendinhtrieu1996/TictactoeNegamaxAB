@@ -7,7 +7,7 @@ import android.util.Size;
  */
 public enum SizeBoard {
 
-    EIGHT("1", 8), TEN("2", 10), TWELVE("3", 12), FOURTEEN("4", 14), FIFTEEN("5", 15);
+    EIGHT("8x8", 8), TEN("10x10", 10), TWELVE("12x12", 12), FOURTEEN("14x14", 14), FIFTEEN("15x15", 15);
 
     private String key;
     private int value;

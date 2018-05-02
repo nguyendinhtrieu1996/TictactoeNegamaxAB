@@ -1,8 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:orientation="vertical">
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:src="@drawable/background"
+        android:background="@android:color/transparent"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:layout_margin="50dp"
+       android:orientation="vertical"
+       android:background="@android:color/transparent"
+       android:paddingLeft="5dp"
+       android:paddingRight="5dp">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Tùy Chỉnh"
+           android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+           android:layout_marginBottom="15dp"
+           android:textColor="@android:color/black"
+           android:gravity="center"/>
+       
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Kích thước"
+              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+              android:layout_marginBottom="10dp"
+              android:textStyle="bold"
+              android:textColor="@android:color/black"/>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <ImageView
+                  android:id="@+id/minusSizeBtn"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/minus_button"/>
+
+              <TextView
+                  android:id="@+id/sizeText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="ABC"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:layout_gravity="center_vertical"
+                  android:gravity="center"/>
+
+              <ImageView
+                  android:id="@+id/plusSizeBtn"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/plus_button"/>
+
+          </LinearLayout>
+
+      </LinearLayout>
+
+      
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Chế độ"
+               android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+               android:layout_marginBottom="10dp"
+               android:textStyle="bold"
+               android:textColor="@android:color/black"/>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <ImageView
+                  android:id="@+id/minusModeBtn"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/minus_button"/>
+
+              <TextView
+                  android:id="@+id/modeText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="ABC"
+                  android:layout_weight="1"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:layout_gravity="center_vertical"
+                  android:gravity="center"/>
+
+              <ImageView
+                  android:id="@+id/plusModeBtn"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/plus_button"/>
+
+          </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginTop="20dp">
+
+               <ImageView
+                   android:id="@+id/backImg"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:src="@drawable/back_small_button"/>
+
+               <ImageView
+                   android:id="@+id/applyImg"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:src="@drawable/apply_button"/>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+   </LinearLayout>
 
 </FrameLayout>
