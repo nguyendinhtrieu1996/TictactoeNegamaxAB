@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  */
 
 public class ChessBoardHelper {
+
     private String[] caseHuman = {"0110", "01112", "0110102", "21110", "010110",
             "011010", "01110", "011112", "211110", "2111010", "011110", "11111",
             "0111012", "10101011", "0101110", "0111010", "0111102", "110110",
@@ -65,25 +66,29 @@ public class ChessBoardHelper {
          */
         for (row = 0; row < n; row++) {
             for (colum = 0; colum < n - 4; colum++) {
-                countAI = 0;
-                countHuman = 0;
+                countAI = 0; // Đếm số nước đi của AI
+                countHuman = 0; // Đếm số nước đi của người chơi
                 for (i = 0; i < 5; i++) {
-                    if (b[row][colum + i] == 2) {
+                    if (b[row][colum + i] == 2) { // Kiểm tra nước đi hiện tại có phải của AI không
                         countAI++;
                     }
-                    if (b[row][colum + i] == 1) {
+                    if (b[row][colum + i] == 1) { // Kiểm tra nước đi cuả người chơi
                         countHuman++;
                     }
                 }
+                //Kiểm tra khi người chơi chưa đi hoặc Bot chưa đi (nếu cả 2 chưa đi bỏ qua)
                 if (countAI * countHuman == 0 && countAI != countHuman) {
                     for (i = 0; i < 5; i++) {
-                        if (b[row][colum + i] == 0) {
-                            if (countAI == 0) {
+                        if (b[row][colum + i] == 0) { //Tại mỗi dòng tăng dần chỉ số cột để quét
+                            if (countAI == 0) { //Nếu AI chưa đi nước nào
                                 if (Player == 2) {
+                                    //Lượt chơi hiện tại của AI thì AI phải phòng thủ
                                     evaluateSquare[row][colum + i] += defenseScore[countHuman];
                                 } else { // Player Turn => Player wil Attack
+                                    //Lượt chơi hiện tại của người chơi thì người chơi phải tấn công
                                     evaluateSquare[row][colum + i] += attackScore[countHuman];
                                 }
+                                //Kiểm tra xem có bị chặn 2 đầu không nếu nó bị chặn rồi thì điểm số sẽ bằng 0
                                 if (CheckPoint(row, colum - 1) && CheckPoint(row, colum + 5) && b[row][colum - 1] == 2 && b[row][colum + 5] == 2) {
                                     evaluateSquare[row][colum + i] = 0;
                                 }

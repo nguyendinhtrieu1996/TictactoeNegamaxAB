@@ -2,12 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/dinhtrieu/Desktop/TictactoeNegamaxAB/ServerSocket/src/serversocket/RolePlayer.java</file>
-            <file>file:/Users/dinhtrieu/Desktop/TictactoeNegamaxAB/ServerSocket/src/serversocket/MatchThread.java</file>
-            <file>file:/Users/dinhtrieu/Desktop/TictactoeNegamaxAB/ServerSocket/src/serversocket/StatusCode.java</file>
-            <file>file:/Users/dinhtrieu/Desktop/TictactoeNegamaxAB/ServerSocket/src/serversocket/Chessboard.java</file>
-            <file>file:/Users/dinhtrieu/Desktop/TictactoeNegamaxAB/ServerSocket/src/serversocket/MyServerSocket.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

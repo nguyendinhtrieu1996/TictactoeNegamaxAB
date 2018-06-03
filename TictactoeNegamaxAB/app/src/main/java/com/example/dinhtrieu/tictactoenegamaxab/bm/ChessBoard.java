@@ -28,8 +28,6 @@ import java.util.List;
  * Created by dinhtrieu on 4/12/18.
  */
 
-
-
 public class ChessBoard {
     private Bitmap bitmap;
     private Canvas canvas;
@@ -132,25 +130,30 @@ public class ChessBoard {
         }
 
         isPlayerDoneMove = false;
+        //Kiểm tra vị trí người dùng vừa chạm vào thuộc ô nào trên bàn cờ
         final int cellWidth = bitmapWidth / colQty;
         final int cellHeight = bitmapHeight / rowQty;
         final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
         final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
 
+        //Kiểm tra xem ô đó đã có người đi chưa và hiện thông báo nếu đi rồi
         if(board[rowIndex][colIndex] != Constant.noneValue) {
             Toast.makeText(context, "Da chon roi", Toast.LENGTH_LONG).show();
             return true;
         }
 
+        //Vẽ nước đi người chơi vừa chọn
         onDrawBoard(rowIndex, colIndex, cellWidth, cellHeight, playerA);
         view.invalidate();
 
+        //Ghi nhận nước đi
         board[rowIndex][colIndex] = player;
         chessBoardHelper.makeMove(new Move(rowIndex, colIndex), player);
         previousMove = new Move(rowIndex, colIndex);
         checkedCount++;
         convertPlayer();
 
+        //Kiểm tra xem GameOver chưa?
         if(isGameOver()){
             isGameOver = true;
             delgate.gameOver(winner);
@@ -234,6 +237,7 @@ public class ChessBoard {
             return true;
         }
 
+        //Đã đánh hết bàn cờ
         if (checkedCount == rowQty * colQty) {
             return true;
         }
@@ -243,10 +247,10 @@ public class ChessBoard {
 
     private boolean checkWin() {
         if (previousMove == null) return false;
-        if (checkRow(previousMove.getRowIndex())
-                || checkColumn(previousMove.getColIndex())
-                || checkDiagonalFromTopLeft(previousMove.getRowIndex(), previousMove.getColIndex())
-                || checkDiagonalFromTopRight(previousMove.getRowIndex(), previousMove.getColIndex())) {
+        if (checkRow(previousMove.getRowIndex()) // Check dòng đã thắng chưa
+                || checkColumn(previousMove.getColIndex()) //Check cột đã thắng chưa
+                || checkDiagonalFromTopLeft(previousMove.getRowIndex(), previousMove.getColIndex()) // Check đường chéo trên trái
+                || checkDiagonalFromTopRight(previousMove.getRowIndex(), previousMove.getColIndex())) { // Check đường chéo trên phải
             return true;
         }
 
