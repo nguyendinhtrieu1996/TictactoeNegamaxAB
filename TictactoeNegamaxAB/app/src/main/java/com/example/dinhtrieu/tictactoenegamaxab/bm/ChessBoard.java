@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import com.example.dinhtrieu.tictactoenegamaxab.R;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Line;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Move;
 import com.example.dinhtrieu.tictactoenegamaxab.dm.Record;
-import com.example.dinhtrieu.tictactoenegamaxab.dm.RolePlayer;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.ChessBoardDelegate;
 import com.example.dinhtrieu.tictactoenegamaxab.models.GameMode;
 import com.example.dinhtrieu.tictactoenegamaxab.uit.Constant;
@@ -200,26 +198,6 @@ public class ChessBoard {
         isAIDoneMove = true;
 
         return true;
-    }
-
-    public Move getMoveFromTouch(final View view, MotionEvent motionEvent){
-        final int colIndex = (int) (motionEvent.getX() / (view.getWidth() / colQty));
-        final int rowIndex = (int) (motionEvent.getY() / (view.getHeight() / rowQty));
-
-        return new Move(rowIndex, colIndex);
-    }
-
-    public void drawMove(Move move, View view, RolePlayer role) {
-        int cellWidth = bitmapWidth / colQty;
-        int cellHeight = bitmapHeight / rowQty;
-
-        if (role == RolePlayer.PLAYERA) {
-            onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight, playerA);
-        } else if (role == RolePlayer.PLAYERB) {
-            onDrawBoard(move.getRowIndex(), move.getColIndex(), cellWidth, cellHeight, playerB);
-        }
-
-        view.invalidate();
     }
 
     public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight, Bitmap bitmap){
