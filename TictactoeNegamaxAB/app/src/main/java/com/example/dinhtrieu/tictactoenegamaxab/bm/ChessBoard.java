@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -45,6 +47,8 @@ public class ChessBoard {
     public static boolean isPlayerDoneMove;
     public static boolean isAIDoneMove;
     public ChessBoardDelegate delgate;
+    private Move winFromMove;
+    private Move winToMove;
 
     private Bitmap playerA, playerB;
 
@@ -66,6 +70,8 @@ public class ChessBoard {
     }
 
     public void init() {
+        winFromMove = null;
+        winToMove = null;
         player = Constant.playerValue;
         isGameOver = false;
         isAIDoneMove = true;
@@ -108,6 +114,7 @@ public class ChessBoard {
     }
 
     public Bitmap drawBoard(){
+        paint.setStrokeWidth(2);
         for(int i = 0; i < lines.size(); i++) {
             canvas.drawLine(
                     lines.get(i).getX1(),
@@ -119,6 +126,29 @@ public class ChessBoard {
         }
 
         return bitmap;
+    }
+
+    public void drawWinLine() {
+        if (winFromMove == null || winToMove == null) { return; }
+        paint.setStrokeWidth(20);
+        final int cellWidth = bitmapWidth / colQty;
+        final int cellHeight = bitmapHeight / rowQty;
+        int y1 = winFromMove.getRowIndex() * cellWidth;
+        int x1 = winFromMove.getColIndex() * cellHeight;
+        int y2 = winToMove.getRowIndex() * cellWidth;
+        int x2 = winToMove.getColIndex() * cellHeight;
+
+        if (y1 == y2) {
+            y1 += cellHeight / 2;
+            y2 += cellHeight / 2;
+            x2 += cellWidth;
+        } else if (x1 == x2) {
+            x1 += cellWidth / 2;
+            x2 += cellWidth / 2;
+            y2 += cellHeight;
+        }
+
+        canvas.drawLine(x1, y1, x2, y2, paint);
     }
 
     public boolean onTouch(final View view, MotionEvent motionEvent){
@@ -136,7 +166,7 @@ public class ChessBoard {
 
         //Kiểm tra xem ô đó đã có người đi chưa và hiện thông báo nếu đi rồi
         if(board[rowIndex][colIndex] != Constant.noneValue) {
-            Toast.makeText(context, "Da chon roi", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Đã chọn rồi", Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -154,6 +184,7 @@ public class ChessBoard {
         //Kiểm tra xem GameOver chưa?
         if(isGameOver()){
             isGameOver = true;
+            drawWinLine();
             delgate.gameOver(winner);
             return true;
         }
@@ -191,6 +222,7 @@ public class ChessBoard {
         view.invalidate();
 
         if (isGameOver()) {
+            drawWinLine();
             isGameOver = true;
             delgate.gameOver(winner);
         }
@@ -202,7 +234,7 @@ public class ChessBoard {
 
     public void onDrawBoard(int rowIndex, int colIndex, int cellWidth, int cellHeight, Bitmap bitmap){
         int padding = 5;
-
+        paint.setStrokeWidth(2);
         canvas.drawBitmap(
                     bitmap,
                     new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()),
@@ -273,7 +305,8 @@ public class ChessBoard {
                         return false;
                     }
 
-
+                    winFromMove = new Move(row, i - 4);
+                    winToMove = new Move(row, i);
                     return true;
                 }
             } else {
@@ -321,6 +354,8 @@ public class ChessBoard {
                         return false;
                     }
 
+                    winFromMove = new Move(i - 4, column);
+                    winToMove = new Move(i, column);
                     return true;
                 }
             } else {
@@ -386,6 +421,8 @@ public class ChessBoard {
                         return false;
                     }
 
+                    winFromMove = new Move(rowStart + i + 2, colStart - i - 1);
+                    winToMove = new Move(rowStart + i  - 3, colStart - i + 4);
                     return true;
                 }
             } else {
@@ -450,11 +487,12 @@ public class ChessBoard {
                         t++;
                     }
 
-
                     if (checkCountTop > 0 && checkCountBottom > 0) {
                         return false;
                     }
 
+                    winFromMove = new Move(rowStart + i + 2, colStart + i + 2);
+                    winToMove = new Move(rowStart + i  - 3, colStart + i -3);
                     return true;
                 }
             } else {
@@ -493,6 +531,8 @@ public class ChessBoard {
     }
 
     public void resetWinner() {
+        winFromMove = null;
+        winToMove = null;
         winner = Constant.noneValue;
     }
 

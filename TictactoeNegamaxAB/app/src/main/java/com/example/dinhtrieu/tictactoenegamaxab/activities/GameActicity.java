@@ -2,6 +2,7 @@ package com.example.dinhtrieu.tictactoenegamaxab.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -74,8 +75,13 @@ public class GameActicity extends AppCompatActivity implements EndGameDialogDele
         chessBoard.delgate = new ChessBoardDelegate() {
             @Override
             public void gameOver(int winner) {
-                endGameDiaglog.winner = chessBoard.getWinner();
-                endGameDiaglog.show(getSupportFragmentManager(), "EndGameDialog");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                         endGameDiaglog.winner = chessBoard.getWinner();
+                         endGameDiaglog.show(getSupportFragmentManager(), "EndGameDialog");
+                    }
+                }, 2000);
             }
         };
 

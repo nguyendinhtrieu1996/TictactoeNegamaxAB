@@ -31,4 +31,9 @@ public class Move {
     public void setColIndex(int colIndex) {
         this.colIndex = colIndex;
     }
+
+    @Override
+    public String toString() {
+        return "x = " + rowIndex + "y = " + colIndex;
+    }
 }
