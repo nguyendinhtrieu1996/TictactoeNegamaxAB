@@ -78,8 +78,8 @@ public class GameActicity extends AppCompatActivity implements EndGameDialogDele
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                         endGameDiaglog.winner = chessBoard.getWinner();
-                         endGameDiaglog.show(getSupportFragmentManager(), "EndGameDialog");
+                        endGameDiaglog.winner = chessBoard.getWinner();
+                        endGameDiaglog.show(getSupportFragmentManager(), "EndGameDialog");
                     }
                 }, 2000);
             }
